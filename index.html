@@ -1,19 +1,29 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>TS Fashion — Original Leather</title>
   <link rel="icon" href="assets/logo.jpg" type="image/x-icon" />
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,100..900;1,100..900&family=Manrope:wght@200..800&display=swap" rel="stylesheet" />
-  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,100..900;1,100..900&family=Manrope:wght@200..800&display=swap"
+    rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+    rel="stylesheet" />
   <link rel="stylesheet" href="css/styles.css" />
 </head>
+
 <body>
 
   <!-- Navbar -->
   <nav class="navbar">
     <div class="navbar__inner">
+      <button class="navbar__burger" aria-label="Menu" aria-expanded="false">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
       <a href="index.html" class="navbar__logo">
         <img src="assets/logo.jpg" alt="TS Leather Logo" />
       </a>
@@ -55,7 +65,8 @@
       <div class="container">
         <div class="section__header">
           <h2 class="section__title">Seasonal<br /><em>Collections</em></h2>
-          <p class="section__desc">From timeless classics to contemporary designs, our collections elevate your style and provide lasting quality.</p>
+          <p class="section__desc">From timeless classics to contemporary designs, our collections elevate your style
+            and provide lasting quality.</p>
         </div>
         <div class="seasons">
           <div class="season-card">
@@ -161,7 +172,8 @@
             <span class="label">Crafted For You</span>
             <h2 class="section__title">The Art of<br /><em>Customization</em></h2>
             <p class="custom__text">
-              Experience bespoke leather goods crafted by skilled artisans. From monogramming to full custom designs, we bring your vision to life with precision and craftsmanship.
+              Experience bespoke leather goods crafted by skilled artisans. From monogramming to full custom designs, we
+              bring your vision to life with precision and craftsmanship.
             </p>
             <div class="steps">
               <div class="step">
@@ -208,4 +220,14 @@
   </footer>
 
 </body>
+<script>
+  const burger = document.querySelector('.navbar__burger');
+  const links = document.querySelector('.navbar__links');
+  burger.addEventListener('click', () => {
+    burger.classList.toggle('open');
+    links.classList.toggle('open');
+    burger.setAttribute('aria-expanded', links.classList.contains('open'));
+  });
+</script>
+
 </html>
