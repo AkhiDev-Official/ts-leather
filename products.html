@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Products — TS Fashion Original Leather</title>
+    <link rel="icon" href="assets/logo_new.png" type="image/x-icon" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,100..900;1,100..900&family=Manrope:wght@200..800&display=swap"
+        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+        rel="stylesheet" />
+    <link rel="stylesheet" href="css/styles.css" />
+    <link rel="stylesheet" href="css/products.css" />
+</head>
+
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="navbar__inner">
+            <button class="navbar__burger" aria-label="Menu" aria-expanded="false">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <a href="index.html" class="navbar__logo">
+                <img src="assets/logo_new.png" alt="TS Leather Logo" />
+            </a>
+            <div class="navbar__links">
+                <a href="products.html?cat=men" data-cat="men">Men</a>
+                <a href="products.html?cat=women" data-cat="women">Women</a>
+                <a href="products.html?cat=kids" data-cat="kids">Kids</a>
+                <a href="products.html?cat=wallets" data-cat="wallets">Wallets</a>
+                <a href="products.html?cat=customize" data-cat="customize">Customize</a>
+            </div>
+            <div class="navbar__actions">
+                <button aria-label="Cart">
+                    <span class="material-symbols-outlined">shopping_cart</span>
+                </button>
+                <button aria-label="Account">
+                    <span class="material-symbols-outlined">person</span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <main>
+
+        <!-- Page Header -->
+        <section class="page-hero">
+            <div class="page-hero__bg">
+                <img src="assets/leather.png" alt="Leather texture" />
+            </div>
+            <div class="page-hero__content">
+                <span class="label">Our Collection</span>
+                <h1 class="page-hero__title">All <em>Products</em></h1>
+            </div>
+        </section>
+
+        <!-- Toolbar: Search + Active Filters -->
+        <section class="toolbar">
+            <div class="container">
+                <div class="toolbar__inner">
+                    <div class="toolbar__search">
+                        <span class="material-symbols-outlined toolbar__search-icon">search</span>
+                        <input type="text" id="searchInput" class="toolbar__input"
+                            placeholder="Search leather goods..." />
+                    </div>
+                    <div class="toolbar__meta">
+                        <span class="toolbar__count" id="productCount">0 products</span>
+                        <button class="toolbar__reset" id="resetFilters" aria-label="Clear all filters">
+                            <span class="material-symbols-outlined">filter_list_off</span>
+                            Clear
+                        </button>
+                    </div>
+                </div>
+                <!-- Active filter tags -->
+                <div class="toolbar__tags" id="activeTags"></div>
+            </div>
+        </section>
+
+        <!-- Products Layout -->
+        <section class="section section--dark">
+            <div class="container">
+                <div class="catalog">
+
+                    <!-- Sidebar Filters -->
+                    <aside class="filters" id="filterSidebar">
+                        <button class="filters__close" id="closeFilters" aria-label="Close filters">
+                            <span class="material-symbols-outlined">close</span>
+                        </button>
+
+                        <!-- Category -->
+                        <div class="filter-group">
+                            <h3 class="filter-group__title">Category</h3>
+                            <div class="filter-group__options">
+                                <label class="filter-opt">
+                                    <input type="checkbox" name="cat" value="men" /> <span>Men</span>
+                                </label>
+                                <label class="filter-opt">
+                                    <input type="checkbox" name="cat" value="women" /> <span>Women</span>
+                                </label>
+                                <label class="filter-opt">
+                                    <input type="checkbox" name="cat" value="kids" /> <span>Kids</span>
+                                </label>
+                                <label class="filter-opt">
+                                    <input type="checkbox" name="cat" value="wallets" /> <span>Wallets</span>
+                                </label>
+                                <label class="filter-opt">
+                                    <input type="checkbox" name="cat" value="customize" /> <span>Customize</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Season -->
+                        <div class="filter-group">
+                            <h3 class="filter-group__title">Season</h3>
+                            <div class="filter-group__options">
+                                <label class="filter-opt">
+                                    <input type="checkbox" name="season" value="winter" /> <span>Winter</span>
+                                </label>
+                                <label class="filter-opt">
+                                    <input type="checkbox" name="season" value="spring" /> <span>Spring</span>
+                                </label>
+                                <label class="filter-opt">
+                                    <input type="checkbox" name="season" value="summer" /> <span>Summer</span>
+                                </label>
+                                <label class="filter-opt">
+                                    <input type="checkbox" name="season" value="autumn" /> <span>Autumn</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Leather Type -->
+                        <div class="filter-group">
+                            <h3 class="filter-group__title">Leather</h3>
+                            <div class="filter-group__options">
+                                <label class="filter-opt">
+                                    <input type="checkbox" name="leather" value="calfskin" /> <span>Calfskin</span>
+                                </label>
+                                <label class="filter-opt">
+                                    <input type="checkbox" name="leather" value="nappa" /> <span>Nappa</span>
+                                </label>
+                                <label class="filter-opt">
+                                    <input type="checkbox" name="leather" value="steerhide" /> <span>Steerhide</span>
+                                </label>
+                                <label class="filter-opt">
+                                    <input type="checkbox" name="leather" value="lambskin" /> <span>Lambskin</span>
+                                </label>
+                                <label class="filter-opt">
+                                    <input type="checkbox" name="leather" value="suede" /> <span>Suede</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Price Range -->
+                        <div class="filter-group">
+                            <h3 class="filter-group__title">Price</h3>
+                            <div class="filter-group__options">
+                                <label class="filter-opt">
+                                    <input type="checkbox" name="price" value="0-200" /> <span>Under $200</span>
+                                </label>
+                                <label class="filter-opt">
+                                    <input type="checkbox" name="price" value="200-500" /> <span>$200 – $500</span>
+                                </label>
+                                <label class="filter-opt">
+                                    <input type="checkbox" name="price" value="500-1000" /> <span>$500 – $1,000</span>
+                                </label>
+                                <label class="filter-opt">
+                                    <input type="checkbox" name="price" value="1000+" /> <span>$1,000+</span>
+                                </label>
+                            </div>
+                        </div>
+                    </aside>
+
+                    <!-- Product Grid -->
+                    <div class="catalog__main">
+                        <!-- Mobile filter toggle -->
+                        <button class="catalog__filter-btn" id="openFilters">
+                            <span class="material-symbols-outlined">tune</span> Filters
+                        </button>
+
+                        <div class="products products--catalog" id="productGrid">
+                            <!-- Products injected by JS -->
+                        </div>
+
+                        <!-- Empty State -->
+                        <div class="catalog__empty" id="emptyState" hidden>
+                            <span class="material-symbols-outlined catalog__empty-icon">search_off</span>
+                            <p class="catalog__empty-text">No products match your criteria.</p>
+                            <button class="btn btn--solid" id="emptyReset">View All Products</button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer__inner">
+            <div class="footer__links">
+                <a href="#">Privacy</a>
+                <a href="#">Terms</a>
+                <a href="#">Contact</a>
+            </div>
+            <div class="footer__copy">&copy; 2026 TS Fashion Original Leather. All rights reserved.</div>
+        </div>
+    </footer>
+
+    <script>
+        // ── Burger menu ──
+        const burger = document.querySelector('.navbar__burger');
+        const navLinks = document.querySelector('.navbar__links');
+        burger.addEventListener('click', () => {
+            burger.classList.toggle('open');
+            navLinks.classList.toggle('open');
+            burger.setAttribute('aria-expanded', navLinks.classList.contains('open'));
+        });
+
+        // ── Product Data ──
+        const PRODUCTS = [
+            { id: 1, name: "The Aviator Jacket", cat: "men", season: "winter", leather: "calfskin", price: 1250, material: "Burnished Calfskin", img: "assets/jacket.png" },
+            { id: 2, name: "The Minimalist Bifold", cat: "wallets", season: "spring", leather: "nappa", price: 180, material: "Full Grain Nappa", img: "assets/wallet.png" },
+            { id: 3, name: "The Moto Heritage", cat: "men", season: "autumn", leather: "steerhide", price: 950, material: "Steerhide Leather", img: "assets/jacket.png" },
+            { id: 4, name: "The Classic Trench", cat: "women", season: "winter", leather: "calfskin", price: 1450, material: "Premium Calfskin", img: "assets/winter.png" },
+            { id: 5, name: "The Spring Satchel", cat: "women", season: "spring", leather: "nappa", price: 680, material: "Soft Nappa Leather", img: "assets/spring.png" },
+            { id: 6, name: "The Summer Gloves", cat: "men", season: "summer", leather: "lambskin", price: 220, material: "Perforated Lambskin", img: "assets/summer.png" },
+            { id: 7, name: "The Explorer Backpack", cat: "men", season: "autumn", leather: "steerhide", price: 890, material: "Rugged Steerhide", img: "assets/fall.png" },
+            { id: 8, name: "The Cognac Belt", cat: "men", season: "autumn", leather: "calfskin", price: 165, material: "Burnished Calfskin", img: "assets/fall.png" },
+            { id: 9, name: "The Kids Bomber", cat: "kids", season: "winter", leather: "lambskin", price: 420, material: "Soft Lambskin", img: "assets/jacket.png" },
+            { id: 10, name: "The Suede Weekender", cat: "women", season: "summer", leather: "suede", price: 750, material: "Italian Suede", img: "assets/summer.png" },
+            { id: 11, name: "The Cardholder Slim", cat: "wallets", season: "spring", leather: "nappa", price: 95, material: "Full Grain Nappa", img: "assets/wallet.png" },
+            { id: 12, name: "The Heritage Duffle", cat: "men", season: "winter", leather: "steerhide", price: 1100, material: "Steerhide Leather", img: "assets/winter.png" },
+            { id: 13, name: "The Bespoke Messenger", cat: "customize", season: "spring", leather: "calfskin", price: 980, material: "Custom Calfskin", img: "assets/custom.png" },
+            { id: 14, name: "The Kids Travel Wallet", cat: "kids", season: "summer", leather: "nappa", price: 75, material: "Soft Nappa", img: "assets/wallet.png" },
+            { id: 15, name: "The Monogram Clutch", cat: "customize", season: "autumn", leather: "lambskin", price: 540, material: "Custom Lambskin", img: "assets/custom.png" },
+            { id: 16, name: "The Riding Jacket", cat: "women", season: "autumn", leather: "steerhide", price: 1180, material: "Steerhide Leather", img: "assets/jacket.png" },
+            { id: 17, name: "The Zip-Around Wallet", cat: "wallets", season: "winter", leather: "calfskin", price: 210, material: "Burnished Calfskin", img: "assets/wallet.png" },
+            { id: 18, name: "The Kids Crossbody", cat: "kids", season: "spring", leather: "suede", price: 145, material: "Italian Suede", img: "assets/spring.png" },
+        ];
+
+        // ── DOM refs ──
+        const grid = document.getElementById('productGrid');
+        const countEl = document.getElementById('productCount');
+        const tagsEl = document.getElementById('activeTags');
+        const emptyState = document.getElementById('emptyState');
+        const searchInput = document.getElementById('searchInput');
+        const resetBtn = document.getElementById('resetFilters');
+        const emptyReset = document.getElementById('emptyReset');
+        const openFilters = document.getElementById('openFilters');
+        const closeFilters = document.getElementById('closeFilters');
+        const sidebar = document.getElementById('filterSidebar');
+        const allChecks = document.querySelectorAll('.filter-opt input');
+
+        // ── Highlight active nav link ──
+        const params = new URLSearchParams(window.location.search);
+        const catParam = params.get('cat');
+        document.querySelectorAll('.navbar__links a[data-cat]').forEach(a => {
+            if (a.dataset.cat === catParam) a.classList.add('active');
+        });
+
+        // ── Pre-check filter from URL ──
+        if (catParam) {
+            const match = document.querySelector(`.filter-opt input[name="cat"][value="${CSS.escape(catParam)}"]`);
+            if (match) match.checked = true;
+        }
+
+        // ── Price helper ──
+        function matchesPrice(price, range) {
+            if (range === '0-200') return price < 200;
+            if (range === '200-500') return price >= 200 && price < 500;
+            if (range === '500-1000') return price >= 500 && price < 1000;
+            if (range === '1000+') return price >= 1000;
+            return false;
+        }
+
+        // ── Get active filters ──
+        function getFilters() {
+            const filters = {};
+            allChecks.forEach(cb => {
+                if (cb.checked) {
+                    if (!filters[cb.name]) filters[cb.name] = [];
+                    filters[cb.name].push(cb.value);
+                }
+            });
+            return filters;
+        }
+
+        // ── Render ──
+        function render() {
+            const query = searchInput.value.trim().toLowerCase();
+            const filters = getFilters();
+
+            const filtered = PRODUCTS.filter(p => {
+                if (query && !p.name.toLowerCase().includes(query) && !p.material.toLowerCase().includes(query)) return false;
+                if (filters.cat && !filters.cat.includes(p.cat)) return false;
+                if (filters.season && !filters.season.includes(p.season)) return false;
+                if (filters.leather && !filters.leather.includes(p.leather)) return false;
+                if (filters.price && !filters.price.some(r => matchesPrice(p.price, r))) return false;
+                return true;
+            });
+
+            // Count
+            countEl.textContent = `${filtered.length} product${filtered.length !== 1 ? 's' : ''}`;
+
+            // Tags
+            tagsEl.innerHTML = '';
+            for (const [group, vals] of Object.entries(filters)) {
+                vals.forEach(v => {
+                    const tag = document.createElement('button');
+                    tag.className = 'tag';
+                    tag.innerHTML = `${v} <span class="material-symbols-outlined tag__x">close</span>`;
+                    tag.addEventListener('click', () => {
+                        const cb = document.querySelector(`.filter-opt input[name="${group}"][value="${v}"]`);
+                        if (cb) { cb.checked = false; render(); }
+                    });
+                    tagsEl.appendChild(tag);
+                });
+            }
+            if (query) {
+                const tag = document.createElement('button');
+                tag.className = 'tag';
+                tag.innerHTML = `"${query}" <span class="material-symbols-outlined tag__x">close</span>`;
+                tag.addEventListener('click', () => { searchInput.value = ''; render(); });
+                tagsEl.appendChild(tag);
+            }
+
+            // Grid
+            grid.innerHTML = '';
+            emptyState.hidden = filtered.length > 0;
+
+            filtered.forEach(p => {
+                grid.insertAdjacentHTML('beforeend', `
+          <div class="product-card" data-id="${p.id}">
+            <div class="product-card__img-wrap">
+              <img class="product-card__img" src="${p.img}" alt="${p.name}" />
+              <span class="product-card__badge">${p.cat}</span>
+              <button class="product-card__cart" aria-label="Add to cart">
+                <span class="material-symbols-outlined">add_shopping_cart</span>
+              </button>
+            </div>
+            <div class="product-card__meta">
+              <div>
+                <h3 class="product-card__name">${p.name}</h3>
+                <p class="product-card__material">${p.material}</p>
+              </div>
+              <span class="product-card__price">$${p.price.toLocaleString()}</span>
+            </div>
+          </div>
+        `);
+            });
+        }
+
+        // ── Events ──
+        allChecks.forEach(cb => cb.addEventListener('change', render));
+        searchInput.addEventListener('input', render);
+        resetBtn.addEventListener('click', () => {
+            allChecks.forEach(cb => cb.checked = false);
+            searchInput.value = '';
+            render();
+        });
+        emptyReset.addEventListener('click', () => {
+            allChecks.forEach(cb => cb.checked = false);
+            searchInput.value = '';
+            render();
+        });
+        openFilters.addEventListener('click', () => sidebar.classList.add('open'));
+        closeFilters.addEventListener('click', () => sidebar.classList.remove('open'));
+
+        // ── Init ──
+        render();
+    </script>
+
+</body>
+
+</html>
