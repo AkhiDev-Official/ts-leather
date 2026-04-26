@@ -1,6 +1,7 @@
 Products:
 - leather jackets (men, women, kids)
-- leather waller
+- leather wallet
+- leather belt
 
 Features:
 - official brand style

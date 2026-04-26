@@ -1,0 +1,274 @@
+/* ========== HERO ========== */
+.hero {
+  position: relative;
+  height: calc(100vh - 100px);
+  min-height: 600px;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+}
+
+.hero__bg {
+  position: absolute;
+  inset: 0;
+  opacity: 0.5;
+}
+
+.hero__bg img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.hero__content {
+  position: relative;
+  z-index: 1;
+  max-width: 640px;
+  margin-left: 3rem;
+}
+
+.hero__title {
+  font-family: var(--font-serif);
+  font-size: clamp(3rem, 7vw, 5.5rem);
+  font-weight: 300;
+  line-height: 1.1;
+  margin-bottom: 2.5rem;
+}
+
+.hero__title em {
+  font-style: italic;
+  color: var(--text-muted);
+}
+
+.hero__stamp {
+  position: absolute;
+  bottom: 3rem;
+  right: 3rem;
+  font-size: 0.58rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  opacity: 0.35;
+  writing-mode: vertical-rl;
+}
+
+/* ========== SEASONAL GRID ========== */
+.seasons {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+}
+
+.season-card {
+  position: relative;
+  aspect-ratio: 3 / 4;
+  overflow: hidden;
+  background: var(--bg-elevated);
+}
+
+.season-card:nth-child(even) {
+  margin-top: 3rem;
+}
+
+.season-card__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.75;
+  transition: transform 0.7s ease;
+}
+
+.season-card:hover .season-card__img {
+  transform: scale(1.05);
+}
+
+.season-card__overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, var(--bg-deep) 0%, transparent 60%);
+  opacity: 0.7;
+  pointer-events: none;
+}
+
+.season-card__info {
+  position: absolute;
+  bottom: 2rem;
+  left: 2rem;
+}
+
+.season-card__part {
+  font-size: 0.6rem;
+  letter-spacing: 0.2em;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 0.4rem;
+  display: block;
+}
+
+.season-card__name {
+  font-family: var(--font-serif);
+  font-size: 1.4rem;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+}
+
+/* ========== CUSTOMIZATION ========== */
+.custom {
+  display: flex;
+  align-items: center;
+  gap: 5rem;
+}
+
+.custom__visual {
+  flex: 1;
+  position: relative;
+}
+
+.custom__corner {
+  position: absolute;
+  width: 10rem;
+  height: 10rem;
+  pointer-events: none;
+}
+
+.corner--top {
+  top: -2.5rem;
+  left: -2.5rem;
+  border-left: 1px solid rgba(193, 148, 55, 0.2);
+  border-top: 1px solid rgba(193, 148, 55, 0.2);
+}
+
+.corner--bottom {
+  bottom: -2.5rem;
+  right: -2.5rem;
+  border-right: 1px solid rgba(193, 148, 55, 0.2);
+  border-bottom: 1px solid rgba(193, 148, 55, 0.2);
+}
+
+.custom__img {
+  width: 100%;
+  filter: grayscale(30%);
+}
+
+.custom__content {
+  flex: 1;
+}
+
+.custom__text {
+  color: var(--text-muted);
+  line-height: 2;
+  font-weight: 300;
+  font-size: 0.85rem;
+  max-width: 480px;
+  margin-bottom: 3rem;
+}
+
+/* --- Steps --- */
+.steps {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  margin-bottom: 3rem;
+}
+
+.step {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.step__number {
+  width: 3rem;
+  height: 3rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg-card);
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--accent);
+  flex-shrink: 0;
+  transition: background 0.3s;
+}
+
+.step:hover .step__number {
+  background: var(--nut-brown);
+}
+
+.step__text {
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-size: 0.72rem;
+  font-weight: 700;
+}
+
+/* ========== QUOTE ========== */
+.quote {
+  text-align: center;
+  padding: 10rem 3rem;
+}
+
+.quote__icon {
+  color: var(--nut-brown);
+  margin-bottom: 2rem;
+  font-size: 2.5rem !important;
+  display: block;
+}
+
+.quote__text {
+  font-family: var(--font-serif);
+  font-size: clamp(1.5rem, 4vw, 2.8rem);
+  font-style: italic;
+  font-weight: 200;
+  color: var(--text-muted);
+  line-height: 1.45;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.quote__author {
+  margin-top: 2.5rem;
+  font-size: 0.6rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: var(--accent);
+}
+
+/* ========== RESPONSIVE ========== */
+@media (max-width: 1024px) {
+  .seasons {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .custom {
+    flex-direction: column;
+    gap: 3rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .hero {
+    min-height: 500px;
+    height: 80vh;
+  }
+  .hero__bg img {
+    object-position: 47% center;
+  }
+  .hero__content {
+    margin-left: 0;
+    padding: 0 1.5rem;
+  }
+  .hero__stamp {
+    display: none;
+  }
+  .seasons {
+    grid-template-columns: 1fr;
+  }
+  .season-card:nth-child(even) {
+    margin-top: 0;
+  }
+  .quote {
+    padding: 6rem 1.5rem;
+  }
+}
