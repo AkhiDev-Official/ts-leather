@@ -1,0 +1,419 @@
+/* =============================================
+   SEASONAL COLLECTION PAGES
+   ============================================= */
+
+/* ── Hero ── */
+.season-hero {
+  position: relative;
+  height: 75vh;
+  min-height: 520px;
+  max-height: 800px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  text-align: center;
+}
+
+.season-hero__bg {
+  position: absolute;
+  inset: 0;
+}
+
+.season-hero__bg img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform: scale(1.05);
+  animation: heroZoom 20s ease-in-out infinite alternate;
+}
+
+@keyframes heroZoom {
+  from { transform: scale(1.05); }
+  to   { transform: scale(1.15); }
+}
+
+.season-hero__overlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.season-hero__content {
+  position: relative;
+  z-index: 2;
+  max-width: 680px;
+  padding: 0 2rem;
+  animation: fadeInUp 1s ease-out;
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.season-hero__icon {
+  font-size: 2rem !important;
+  display: block;
+  margin-bottom: 1.5rem;
+  opacity: 0.7;
+}
+
+.season-hero__title {
+  font-family: var(--font-serif);
+  font-size: clamp(2.5rem, 6vw, 4.5rem);
+  font-weight: 300;
+  line-height: 1.12;
+  margin-bottom: 1.5rem;
+  letter-spacing: 0.01em;
+}
+
+.season-hero__title em {
+  font-style: italic;
+  display: block;
+  font-weight: 300;
+}
+
+.season-hero__desc {
+  font-size: 0.85rem;
+  font-weight: 300;
+  line-height: 2;
+  max-width: 520px;
+  margin: 0 auto 2.5rem;
+  opacity: 0.75;
+  letter-spacing: 0.02em;
+}
+
+/* ── Product grid override ── */
+.products--season {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+/* ===================================================
+   PER-SEASON THEMES
+   =================================================== */
+
+/* ── WINTER — icy blues, deep navy ── */
+.season-page--winter .season-hero__overlay {
+  background: linear-gradient(
+    to bottom,
+    rgba(10, 15, 28, 0.5) 0%,
+    rgba(10, 15, 28, 0.85) 100%
+  );
+}
+.season-page--winter .season-hero__icon { color: #8CB4D8; }
+.season-page--winter .season-hero__title em { color: #8CB4D8; }
+
+/* ── SPRING — soft green, warm petal tones ── */
+.season-page--spring .season-hero__overlay {
+  background: linear-gradient(
+    to bottom,
+    rgba(20, 28, 18, 0.45) 0%,
+    rgba(20, 28, 18, 0.85) 100%
+  );
+}
+.season-page--spring .season-hero__icon { color: #8ABB7A; }
+.season-page--spring .season-hero__title em { color: #A8C89A; }
+
+/* ── SUMMER — warm amber, sun-bleached ── */
+.season-page--summer .season-hero__overlay {
+  background: linear-gradient(
+    to bottom,
+    rgba(30, 22, 12, 0.35) 0%,
+    rgba(22, 18, 16, 0.88) 100%
+  );
+}
+.season-page--summer .season-hero__icon { color: #E8B84A; }
+.season-page--summer .season-hero__title em { color: #E8C06A; }
+
+/* ── AUTUMN — deep burnt sienna, warm rust ── */
+.season-page--autumn .season-hero__overlay {
+  background: linear-gradient(
+    to bottom,
+    rgba(24, 14, 8, 0.45) 0%,
+    rgba(22, 18, 16, 0.88) 100%
+  );
+}
+.season-page--autumn .season-hero__icon { color: #C47A3A; }
+.season-page--autumn .season-hero__title em { color: #D48A48; }
+
+/* ===================================================
+   PARTICLE / FX EFFECTS
+   =================================================== */
+
+.season-fx {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.season-fx__item {
+  position: absolute;
+  top: 0;
+  will-change: transform, opacity;
+}
+
+/* ── Frost vignette (Winter) ── */
+.season-fx__frost {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at 10% 0%, rgba(180,210,240,0.08) 0%, transparent 50%),
+    radial-gradient(ellipse at 90% 10%, rgba(160,200,230,0.06) 0%, transparent 40%),
+    radial-gradient(ellipse at 50% 100%, rgba(120,160,200,0.05) 0%, transparent 50%);
+  pointer-events: none;
+}
+
+/* ── Bloom overlays ── */
+.season-fx__bloom {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  mix-blend-mode: screen;
+}
+
+.season-fx__bloom--spring {
+  background:
+    radial-gradient(ellipse at 30% 30%, rgba(255,200,210,0.06) 0%, transparent 60%),
+    radial-gradient(ellipse at 70% 70%, rgba(180,220,160,0.04) 0%, transparent 50%);
+}
+
+.season-fx__bloom--summer {
+  background:
+    radial-gradient(ellipse at 40% 15%, rgba(255,220,100,0.1) 0%, transparent 60%),
+    radial-gradient(ellipse at 65% 50%, rgba(255,200,80,0.05) 0%, transparent 50%);
+}
+
+.season-fx__bloom--autumn {
+  background:
+    radial-gradient(ellipse at 25% 25%, rgba(196,122,58,0.06) 0%, transparent 55%),
+    radial-gradient(ellipse at 75% 65%, rgba(180,90,30,0.05) 0%, transparent 50%);
+}
+
+/* ── Light rays (Summer) ── */
+.season-fx__rays {
+  position: absolute;
+  top: -10%;
+  left: 50%;
+  width: 0;
+  height: 0;
+}
+
+.season-fx__ray {
+  position: absolute;
+  height: 120vh;
+  background: linear-gradient(to bottom, rgba(255,220,120,0.12) 0%, transparent 70%);
+  transform-origin: top center;
+}
+
+/* ── Dust motes (Summer) ── */
+.season-fx__mote {
+  position: absolute;
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255,225,140,0.8) 0%, rgba(255,200,100,0.3) 60%, transparent 100%);
+  box-shadow: 0 0 4px rgba(255,215,100,0.3);
+  will-change: transform, opacity;
+}
+
+/* ===================================================
+   RESPONSIVE
+   =================================================== */
+
+@media (max-width: 1024px) {
+  .products--season {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .season-hero {
+    height: 55vh;
+    min-height: 380px;
+  }
+
+  .season-hero__title {
+    font-size: clamp(2rem, 8vw, 3rem);
+  }
+
+  .season-hero__desc {
+    font-size: 0.8rem;
+    margin-bottom: 2rem;
+  }
+
+  .products--season {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+  }
+
+  .season-fx__item {
+    opacity: 0.4 !important;
+  }
+
+  .season-fx__mote {
+    display: none;
+  }
+
+  .season-nav {
+    padding: 0.8rem 1.25rem;
+  }
+
+  .season-nav__link span:not(.material-symbols-outlined) {
+    display: none;
+  }
+
+  .season-filters {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.8rem;
+  }
+
+  .season-filters__group select {
+    min-width: auto;
+    width: 100%;
+  }
+
+  .season-filters__count {
+    margin-left: 0;
+    text-align: right;
+  }
+}
+
+@media (max-width: 480px) {
+  .season-hero {
+    height: 45vh;
+    min-height: 300px;
+  }
+
+  .season-hero__content {
+    padding: 0 1rem;
+  }
+
+  .products--season {
+    grid-template-columns: 1fr;
+  }
+
+  .season-nav {
+    padding: 0.6rem 0.75rem;
+  }
+}
+
+/* ===================================================
+   SEASON FILTER BAR
+   =================================================== */
+
+.season-filters {
+  display: flex;
+  align-items: flex-end;
+  gap: 1.5rem;
+  margin-bottom: 2.5rem;
+  padding: 1.25rem 0;
+  border-bottom: 1px solid rgba(122, 82, 48, 0.1);
+  flex-wrap: wrap;
+}
+
+.season-filters__group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.season-filters__group label {
+  font-size: 0.6rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--text-dim);
+}
+
+.season-filters__group select {
+  background: var(--bg-card);
+  border: 1px solid rgba(122, 82, 48, 0.15);
+  color: var(--text);
+  font-family: var(--font-sans);
+  font-size: 0.72rem;
+  padding: 0.5rem 0.8rem;
+  outline: none;
+  cursor: pointer;
+  transition: border-color 0.3s;
+  min-width: 140px;
+}
+
+.season-filters__group select:focus {
+  border-color: var(--accent);
+}
+
+.season-filters__group select option {
+  background: var(--bg-deep);
+  color: var(--text);
+}
+
+.season-filters__count {
+  font-family: var(--ff-numeric);
+  font-size: 0.65rem;
+  color: var(--text-dim);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-left: auto;
+}
+
+/* ===================================================
+   SEASON NAVIGATION BAR
+   =================================================== */
+
+.season-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 3rem;
+  background: var(--bg-deep);
+  border-bottom: 1px solid rgba(122, 82, 48, 0.15);
+}
+
+.season-nav__link {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-family: var(--font-sans);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  transition: color 0.4s var(--ease-luxury);
+}
+
+.season-nav__link:hover {
+  color: var(--accent);
+}
+
+.season-nav__link .material-symbols-outlined {
+  font-size: 1rem !important;
+}
+
+.season-nav__dots {
+  display: flex;
+  gap: 0.6rem;
+}
+
+.season-nav__dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--bg-card);
+  border: 1px solid rgba(122, 82, 48, 0.3);
+  transition: background 0.3s, transform 0.3s;
+}
+
+.season-nav__dot.active {
+  background: var(--accent);
+  border-color: var(--accent);
+  transform: scale(1.3);
+}
+
+.season-nav__dot:hover:not(.active) {
+  background: var(--leather);
+}

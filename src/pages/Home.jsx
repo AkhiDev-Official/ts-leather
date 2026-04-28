@@ -2,16 +2,16 @@ import { Link } from 'react-router-dom';
 import './Home.css';
 
 const SEASONS = [
-  { part: 'Part I', name: 'Winter', img: '/assets/winter.png' },
-  { part: 'Part II', name: 'Spring', img: '/assets/spring.png' },
-  { part: 'Part III', name: 'Summer', img: '/assets/summer.png' },
-  { part: 'Part IV', name: 'Autumn', img: '/assets/fall.png' },
+  { part: 'Part I', name: 'Winter', slug: 'winter', img: '/assets/winter.jpg' },
+  { part: 'Part II', name: 'Spring', slug: 'spring', img: '/assets/spring.jpg' },
+  { part: 'Part III', name: 'Summer', slug: 'summer', img: '/assets/summer.jpg' },
+  { part: 'Part IV', name: 'Autumn', slug: 'autumn', img: '/assets/fall.jpg' },
 ];
 
 const ESSENTIALS = [
-  { name: 'The Aviator Jacket', material: 'Burnished Calfskin', price: '$1,250', img: '/assets/jacket.png' },
-  { name: 'The Minimalist Bifold', material: 'Full Grain Nappa', price: '$180', img: '/assets/wallet.png' },
-  { name: 'The Moto Heritage', material: 'Steerhide Leather', price: '$950', img: '/assets/jacket.png' },
+  { name: 'The Aviator Jacket', slug: 'the-aviator-jacket', material: 'Burnished Calfskin', price: '$1,250', img: '/assets/jacket.jpg' },
+  { name: 'The Minimalist Bifold', slug: 'the-minimalist-bifold', material: 'Full Grain Nappa', price: '$180', img: '/assets/wallet.png' },
+  { name: 'The Moto Heritage', slug: 'the-moto-heritage', material: 'Steerhide Leather', price: '$950', img: '/assets/jacket.jpg' },
 ];
 
 const STEPS = [
@@ -26,7 +26,7 @@ function Home() {
       {/* Hero */}
       <section className="hero">
         <div className="hero__bg">
-          <img src="/assets/jacket_main_full.png" alt="Signature Leather Jacket" />
+          <img src="/assets/jacket_main_full.jpg" alt="Signature Leather Jacket" />
         </div>
         <div className="hero__content">
           <span className="label">TS Fashion Original Leather</span>
@@ -51,15 +51,15 @@ function Home() {
             </p>
           </div>
           <div className="seasons">
-            {SEASONS.map(({ part, name, img }) => (
-              <div className="season-card" key={name}>
+            {SEASONS.map(({ part, name, slug, img }) => (
+              <Link to={`/collection/${slug}`} className="season-card" key={name}>
                 <img className="season-card__img" src={img} alt={`${name} Collection`} />
                 <div className="season-card__overlay" />
                 <div className="season-card__info">
                   <span className="season-card__part">{part}</span>
                   <h3 className="season-card__name">{name}</h3>
                 </div>
-              </div>
+              </Link>
             ))}
           </div>
         </div>
@@ -71,11 +71,11 @@ function Home() {
           <h2 className="section__title--center">Iconic <em>Essentials</em></h2>
           <div className="section__divider" />
           <div className="products">
-            {ESSENTIALS.map(({ name, material, price, img }) => (
-              <div className="product-card" key={name}>
+            {ESSENTIALS.map(({ name, slug, material, price, img }) => (
+              <Link to={`/product/${slug}`} className="product-card" key={name}>
                 <div className="product-card__img-wrap">
                   <img className="product-card__img" src={img} alt={name} />
-                  <button className="product-card__cart" aria-label="Add to cart">
+                  <button className="product-card__cart" aria-label="Add to cart" onClick={e => { e.preventDefault(); e.stopPropagation(); }}>
                     <span className="material-symbols-outlined">add_shopping_cart</span>
                   </button>
                 </div>
@@ -86,7 +86,7 @@ function Home() {
                   </div>
                   <span className="product-card__price">{price}</span>
                 </div>
-              </div>
+              </Link>
             ))}
           </div>
         </div>
@@ -98,7 +98,7 @@ function Home() {
           <div className="custom">
             <div className="custom__visual">
               <div className="custom__corner corner--top" />
-              <img className="custom__img" src="/assets/custom.png" alt="Artisan crafting leather" />
+              <img className="custom__img" src="/assets/custom.jpg" alt="Artisan crafting leather" />
               <div className="custom__corner corner--bottom" />
             </div>
             <div className="custom__content">
@@ -118,7 +118,7 @@ function Home() {
                   </div>
                 ))}
               </div>
-              <a href="#" className="btn btn--solid">Begin Your Design</a>
+              <Link to="/customize/the-bespoke-messenger" className="btn btn--solid">Begin Your Design</Link>
             </div>
           </div>
         </div>
