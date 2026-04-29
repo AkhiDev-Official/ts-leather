@@ -1,5 +1,5 @@
-import { useState, useMemo } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useState, useEffect, useMemo } from 'react';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../components/AuthContext';
 import { PRODUCTS, StarRating } from './Products';
 import './Account.css';
@@ -43,7 +43,14 @@ function formatCurrency(n) {
 function Account() {
   const { user, isAuthenticated, logout, updateProfile, orders, addresses, addAddress, removeAddress, wishlist, toggleWishlist } = useAuth();
   const navigate = useNavigate();
-  const [tab, setTab] = useState('overview');
+  const location = useLocation();
+  const initialTab = new URLSearchParams(location.search).get('tab') || 'overview';
+  const [tab, setTab] = useState(initialTab);
+
+  useEffect(() => {
+    const param = new URLSearchParams(location.search).get('tab');
+    if (param && TABS.some(t => t.key === param)) setTab(param);
+  }, [location.search]);
   const [editMode, setEditMode] = useState(false);
   const [profileForm, setProfileForm] = useState({});
   const [addingAddr, setAddingAddr] = useState(false);

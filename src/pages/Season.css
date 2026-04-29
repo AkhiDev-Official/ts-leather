@@ -29,8 +29,13 @@
 }
 
 @keyframes heroZoom {
-  from { transform: scale(1.05); }
-  to   { transform: scale(1.15); }
+  from {
+    transform: scale(1.05);
+  }
+
+  to {
+    transform: scale(1.15);
+  }
 }
 
 .season-hero__overlay {
@@ -48,8 +53,15 @@
 }
 
 @keyframes fadeInUp {
-  from { opacity: 0; transform: translateY(30px); }
-  to   { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .season-hero__icon {
@@ -95,47 +107,63 @@
 
 /* ── WINTER — icy blues, deep navy ── */
 .season-page--winter .season-hero__overlay {
-  background: linear-gradient(
-    to bottom,
-    rgba(10, 15, 28, 0.5) 0%,
-    rgba(10, 15, 28, 0.85) 100%
-  );
+  background: linear-gradient(to bottom,
+      rgba(10, 15, 28, 0.5) 0%,
+      rgba(10, 15, 28, 0.85) 100%);
 }
-.season-page--winter .season-hero__icon { color: #8CB4D8; }
-.season-page--winter .season-hero__title em { color: #8CB4D8; }
+
+.season-page--winter .season-hero__icon {
+  color: #8CB4D8;
+}
+
+.season-page--winter .season-hero__title em {
+  color: #8CB4D8;
+}
 
 /* ── SPRING — soft green, warm petal tones ── */
 .season-page--spring .season-hero__overlay {
-  background: linear-gradient(
-    to bottom,
-    rgba(20, 28, 18, 0.45) 0%,
-    rgba(20, 28, 18, 0.85) 100%
-  );
+  background: linear-gradient(to bottom,
+      rgba(20, 28, 18, 0.45) 0%,
+      rgba(20, 28, 18, 0.85) 100%);
 }
-.season-page--spring .season-hero__icon { color: #8ABB7A; }
-.season-page--spring .season-hero__title em { color: #A8C89A; }
+
+.season-page--spring .season-hero__icon {
+  color: #8ABB7A;
+}
+
+.season-page--spring .season-hero__title em {
+  color: #A8C89A;
+}
 
 /* ── SUMMER — warm amber, sun-bleached ── */
 .season-page--summer .season-hero__overlay {
-  background: linear-gradient(
-    to bottom,
-    rgba(30, 22, 12, 0.35) 0%,
-    rgba(22, 18, 16, 0.88) 100%
-  );
+  background: linear-gradient(to bottom,
+      rgba(30, 22, 12, 0.35) 0%,
+      rgba(22, 18, 16, 0.88) 100%);
 }
-.season-page--summer .season-hero__icon { color: #E8B84A; }
-.season-page--summer .season-hero__title em { color: #E8C06A; }
+
+.season-page--summer .season-hero__icon {
+  color: #E8B84A;
+}
+
+.season-page--summer .season-hero__title em {
+  color: #E8C06A;
+}
 
 /* ── AUTUMN — deep burnt sienna, warm rust ── */
 .season-page--autumn .season-hero__overlay {
-  background: linear-gradient(
-    to bottom,
-    rgba(24, 14, 8, 0.45) 0%,
-    rgba(22, 18, 16, 0.88) 100%
-  );
+  background: linear-gradient(to bottom,
+      rgba(24, 14, 8, 0.45) 0%,
+      rgba(22, 18, 16, 0.88) 100%);
 }
-.season-page--autumn .season-hero__icon { color: #C47A3A; }
-.season-page--autumn .season-hero__title em { color: #D48A48; }
+
+.season-page--autumn .season-hero__icon {
+  color: #C47A3A;
+}
+
+.season-page--autumn .season-hero__title em {
+  color: #D48A48;
+}
 
 /* ===================================================
    PARTICLE / FX EFFECTS
@@ -160,9 +188,9 @@
   position: absolute;
   inset: 0;
   background:
-    radial-gradient(ellipse at 10% 0%, rgba(180,210,240,0.08) 0%, transparent 50%),
-    radial-gradient(ellipse at 90% 10%, rgba(160,200,230,0.06) 0%, transparent 40%),
-    radial-gradient(ellipse at 50% 100%, rgba(120,160,200,0.05) 0%, transparent 50%);
+    radial-gradient(ellipse at 10% 0%, rgba(180, 210, 240, 0.08) 0%, transparent 50%),
+    radial-gradient(ellipse at 90% 10%, rgba(160, 200, 230, 0.06) 0%, transparent 40%),
+    radial-gradient(ellipse at 50% 100%, rgba(120, 160, 200, 0.05) 0%, transparent 50%);
   pointer-events: none;
 }
 
@@ -176,20 +204,20 @@
 
 .season-fx__bloom--spring {
   background:
-    radial-gradient(ellipse at 30% 30%, rgba(255,200,210,0.06) 0%, transparent 60%),
-    radial-gradient(ellipse at 70% 70%, rgba(180,220,160,0.04) 0%, transparent 50%);
+    radial-gradient(ellipse at 30% 30%, rgba(255, 200, 210, 0.06) 0%, transparent 60%),
+    radial-gradient(ellipse at 70% 70%, rgba(180, 220, 160, 0.04) 0%, transparent 50%);
 }
 
 .season-fx__bloom--summer {
   background:
-    radial-gradient(ellipse at 40% 15%, rgba(255,220,100,0.1) 0%, transparent 60%),
-    radial-gradient(ellipse at 65% 50%, rgba(255,200,80,0.05) 0%, transparent 50%);
+    radial-gradient(ellipse at 40% 15%, rgba(255, 220, 100, 0.1) 0%, transparent 60%),
+    radial-gradient(ellipse at 65% 50%, rgba(255, 200, 80, 0.05) 0%, transparent 50%);
 }
 
 .season-fx__bloom--autumn {
   background:
-    radial-gradient(ellipse at 25% 25%, rgba(196,122,58,0.06) 0%, transparent 55%),
-    radial-gradient(ellipse at 75% 65%, rgba(180,90,30,0.05) 0%, transparent 50%);
+    radial-gradient(ellipse at 25% 25%, rgba(196, 122, 58, 0.06) 0%, transparent 55%),
+    radial-gradient(ellipse at 75% 65%, rgba(180, 90, 30, 0.05) 0%, transparent 50%);
 }
 
 /* ── Light rays (Summer) ── */
@@ -204,7 +232,7 @@
 .season-fx__ray {
   position: absolute;
   height: 120vh;
-  background: linear-gradient(to bottom, rgba(255,220,120,0.12) 0%, transparent 70%);
+  background: linear-gradient(to bottom, rgba(255, 220, 120, 0.12) 0%, transparent 70%);
   transform-origin: top center;
 }
 
@@ -214,8 +242,8 @@
   width: 3px;
   height: 3px;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(255,225,140,0.8) 0%, rgba(255,200,100,0.3) 60%, transparent 100%);
-  box-shadow: 0 0 4px rgba(255,215,100,0.3);
+  background: radial-gradient(circle, rgba(255, 225, 140, 0.8) 0%, rgba(255, 200, 100, 0.3) 60%, transparent 100%);
+  box-shadow: 0 0 4px rgba(255, 215, 100, 0.3);
   will-change: transform, opacity;
 }
 
@@ -269,6 +297,10 @@
     flex-direction: column;
     align-items: stretch;
     gap: 0.8rem;
+  }
+
+  .season-filters__group {
+    width: 100%;
   }
 
   .season-filters__group select {

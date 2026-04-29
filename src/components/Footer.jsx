@@ -1,3 +1,5 @@
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+
 function Footer() {
   return (
     <footer className="footer">
@@ -6,7 +8,9 @@ function Footer() {
           <a href="#">Privacy</a>
           <a href="#">Terms</a>
           <a href="#">Contact</a>
-          <a href="/credits">Photo Credits</a>
+          <Link to="/credits">
+            Photo Credits
+          </Link>
         </div>
         <div className="footer__copy">
           &copy; 2026 TS Fashion Original Leather. All rights reserved.

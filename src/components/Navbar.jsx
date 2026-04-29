@@ -129,14 +129,20 @@ function Navbar() {
               </div>
               {!isAdmin && (
                 <>
-                  <Link to="/account" className="navbar__mobile-account-link" onClick={() => setMenuOpen(false)}>
-                    <span className="material-symbols-outlined">dashboard</span> My Account
+                  <Link to="/account?tab=overview" className="navbar__mobile-account-link" onClick={() => setMenuOpen(false)}>
+                    <span className="material-symbols-outlined">dashboard</span> Overview
                   </Link>
-                  <Link to="/account" className="navbar__mobile-account-link" onClick={() => setMenuOpen(false)}>
+                  <Link to="/account?tab=orders" className="navbar__mobile-account-link" onClick={() => setMenuOpen(false)}>
                     <span className="material-symbols-outlined">receipt_long</span> My Orders
                   </Link>
-                  <Link to="/account" className="navbar__mobile-account-link" onClick={() => setMenuOpen(false)}>
+                  <Link to="/account?tab=wishlist" className="navbar__mobile-account-link" onClick={() => setMenuOpen(false)}>
                     <span className="material-symbols-outlined">favorite</span> Wishlist
+                  </Link>
+                  <Link to="/account?tab=addresses" className="navbar__mobile-account-link" onClick={() => setMenuOpen(false)}>
+                    <span className="material-symbols-outlined">location_on</span> Addresses
+                  </Link>
+                  <Link to="/account?tab=profile" className="navbar__mobile-account-link" onClick={() => setMenuOpen(false)}>
+                    <span className="material-symbols-outlined">person</span> Profile
                   </Link>
                 </>
               )}
@@ -184,17 +190,25 @@ function Navbar() {
                   <span className="navbar__account-name">{user.firstName} {user.lastName}</span>
                   <span className="navbar__account-email">{user.email}</span>
                 </div>
-                <Link to="/account" className="navbar__dropdown-item">
+                <Link to="/account?tab=overview" className="navbar__dropdown-item">
                   <span className="material-symbols-outlined navbar__dropdown-icon">dashboard</span>
-                  Dashboard
+                  Overview
                 </Link>
-                <Link to="/account" className="navbar__dropdown-item">
+                <Link to="/account?tab=orders" className="navbar__dropdown-item">
                   <span className="material-symbols-outlined navbar__dropdown-icon">receipt_long</span>
                   My Orders
                 </Link>
-                <Link to="/account" className="navbar__dropdown-item">
+                <Link to="/account?tab=wishlist" className="navbar__dropdown-item">
                   <span className="material-symbols-outlined navbar__dropdown-icon">favorite</span>
                   Wishlist
+                </Link>
+                <Link to="/account?tab=addresses" className="navbar__dropdown-item">
+                  <span className="material-symbols-outlined navbar__dropdown-icon">location_on</span>
+                  Addresses
+                </Link>
+                <Link to="/account?tab=profile" className="navbar__dropdown-item">
+                  <span className="material-symbols-outlined navbar__dropdown-icon">person</span>
+                  Profile
                 </Link>
                 <button className="navbar__dropdown-item navbar__dropdown-item--logout" onClick={handleLogout}>
                   <span className="material-symbols-outlined navbar__dropdown-icon">logout</span>
