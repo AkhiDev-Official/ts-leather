@@ -1,7 +1,7 @@
 import { useState, useEffect, useMemo } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { useAuth } from '../components/AuthContext';
-import { PRODUCTS, StarRating } from './Products';
+import { useAuth } from '../../components/AuthContext';
+import { PRODUCTS, StarRating } from '../Products/Products';
 import './Account.css';
 
 const TABS = [

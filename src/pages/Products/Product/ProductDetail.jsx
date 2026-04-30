@@ -1,6 +1,6 @@
 import { useState, useMemo } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
-import { PRODUCTS, StarRating } from './Products';
+import { PRODUCTS, StarRating } from '../Products';
 import './ProductDetail.css';
 
 const REVIEWER_NAMES = ['Marie D.', 'Thomas L.', 'Sophie M.', 'Antoine R.', 'Camille B.', 'Hugo P.', 'Emma V.', 'Lucas G.', 'Léa F.', 'Nathan C.', 'Chloé K.', 'Maxime J.'];

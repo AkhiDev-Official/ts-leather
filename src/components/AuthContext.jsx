@@ -1,5 +1,5 @@
 import { createContext, useContext, useState, useCallback, useMemo } from 'react';
-import { PRODUCTS } from '../pages/Products';
+import { PRODUCTS } from '../pages/Products/Products';
 
 const AuthContext = createContext(null);
 

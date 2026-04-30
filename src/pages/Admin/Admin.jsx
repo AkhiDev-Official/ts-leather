@@ -1,7 +1,7 @@
 import { useState, useEffect, useMemo, useCallback } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { useAuth } from '../components/AuthContext';
-import { PRODUCTS } from './Products';
+import { useAuth } from '../../components/AuthContext';
+import { PRODUCTS } from '../Products/Products';
 import './Admin.css';
 
 /* ─────────────────────── helpers ─────────────────────── */
