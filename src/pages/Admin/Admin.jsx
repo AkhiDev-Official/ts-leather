@@ -1,7 +1,7 @@
 import { useState, useEffect, useMemo, useCallback } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../components/AuthContext';
-import { PRODUCTS } from '../Products/Products';
+import { PRODUCTS } from '../../data/products';
 import './Admin.css';
 
 /* ─────────────────────── helpers ─────────────────────── */
@@ -15,13 +15,10 @@ const uid = () => Date.now().toString(36) + Math.random().toString(36).slice(2, 
 
 /* ─────────────────────── FAKE DATA ─────────────────────── */
 
-const MOCK_CUSTOMERS = [
-  { id: 'u-001', email: 'test@mail.com', firstName: 'Test', lastName: 'Client', role: 'customer', isActive: true, ordersCount: 4, totalSpent: 4484.40, createdAt: '2025-11-15' },
-  { id: 'u-002', email: 'marie.dupont@email.fr', firstName: 'Marie', lastName: 'Dupont', role: 'customer', isActive: true, ordersCount: 7, totalSpent: 8250.00, createdAt: '2025-08-22' },
-  { id: 'u-003', email: 'jean.martin@email.fr', firstName: 'Jean', lastName: 'Martin', role: 'customer', isActive: true, ordersCount: 2, totalSpent: 1890.00, createdAt: '2026-01-10' },
-  { id: 'u-004', email: 'sophie.bernard@email.fr', firstName: 'Sophie', lastName: 'Bernard', role: 'customer', isActive: false, ordersCount: 1, totalSpent: 540.00, createdAt: '2026-03-05' },
-  { id: 'u-admin', email: 'admin@tsleather.com', firstName: 'Admin', lastName: 'TS', role: 'admin', isActive: true, ordersCount: 0, totalSpent: 0, createdAt: '2025-01-01' },
-];
+import { MOCK_CUSTOMERS } from '../../data/mockCustomers';
+import { MOCK_ORDERS_ADMIN } from '../../data/mockOrders';
+import { MOCK_REVIEWS } from '../../data/mockReviews';
+import { MOCK_DISCOUNTS, ORDER_STATUSES } from '../../data/mockDiscounts';
 
 const p = (slug) => PRODUCTS.find(pr => pr.slug === slug);
 
@@ -186,27 +183,6 @@ const MOCK_ORDERS = [
   },
 ];
 
-const MOCK_REVIEWS = [
-  { id: 'rev-001', userId: 'u-001', userName: 'Test Client', productId: 1, productName: 'The Aviator Jacket', rating: 5, title: 'Exceptional quality', comment: 'Stunning jacket, the calfskin is incredibly supple. Worth every euro.', status: 'approved', isVerifiedPurchase: true, createdAt: '2026-03-01T10:00:00Z' },
-  { id: 'rev-002', userId: 'u-002', userName: 'Marie Dupont', productId: 7, productName: 'The Explorer Backpack', rating: 5, title: 'My daily companion', comment: 'Best backpack I have ever owned. The steerhide gets better with age.', status: 'approved', isVerifiedPurchase: true, createdAt: '2026-03-15T14:30:00Z' },
-  { id: 'rev-003', userId: 'u-003', userName: 'Jean Martin', productId: 3, productName: 'The Moto Heritage', rating: 4, title: 'Great jacket, tight fit', comment: 'Amazing quality but runs a bit small. Consider sizing up.', status: 'approved', isVerifiedPurchase: true, createdAt: '2026-03-20T09:15:00Z' },
-  { id: 'rev-004', userId: 'u-002', userName: 'Marie Dupont', productId: 19, productName: 'The Shearling Coat', rating: 5, title: 'Pure luxury', comment: 'The most beautiful coat I have ever seen. Absolutely worth the investment.', status: 'pending', isVerifiedPurchase: true, createdAt: '2026-04-20T16:00:00Z' },
-  { id: 'rev-005', userId: 'u-004', userName: 'Sophie Bernard', productId: 22, productName: 'The Pastel Satchel', rating: 3, title: 'Nice but fragile', comment: 'The colour is lovely but the leather scratches very easily. Expected more for the price.', status: 'pending', isVerifiedPurchase: true, createdAt: '2026-04-22T11:45:00Z' },
-  { id: 'rev-006', userId: 'u-001', userName: 'Test Client', productId: 13, productName: 'The Bespoke Messenger', rating: 5, title: 'Custom perfection', comment: 'The monogram turned out beautifully. Incredible craftsmanship throughout.', status: 'approved', isVerifiedPurchase: true, createdAt: '2026-04-25T08:30:00Z' },
-  { id: 'rev-007', userId: 'u-003', userName: 'Jean Martin', productId: 5, productName: 'The Classic Zip Wallet', rating: 4, title: 'Solid everyday wallet', comment: 'Good quality calfskin, holds all my cards. The zip is smooth.', status: 'pending', isVerifiedPurchase: false, createdAt: '2026-04-26T13:00:00Z' },
-  { id: 'rev-008', userId: 'u-002', userName: 'Marie Dupont', productId: 8, productName: 'The Cognac Belt', rating: 2, title: 'Buckle tarnished quickly', comment: 'The leather is fine but the brass buckle started tarnishing after two weeks.', status: 'pending', isVerifiedPurchase: true, createdAt: '2026-04-26T17:30:00Z' },
-  { id: 'rev-009', userId: 'u-004', userName: 'Sophie Bernard', productId: 2, productName: 'The Minimalist Bifold', rating: 1, title: 'Stitching came undone', comment: 'Terrible quality. The stitching fell apart within the first month.', status: 'rejected', isVerifiedPurchase: false, createdAt: '2026-04-10T10:00:00Z' },
-  { id: 'rev-010', userId: 'u-001', userName: 'Test Client', productId: 15, productName: 'The Monogram Clutch', rating: 4, title: 'Elegant evening piece', comment: 'Beautiful clutch, the monogram was a nice personal touch. Slightly smaller than expected.', status: 'approved', isVerifiedPurchase: true, createdAt: '2026-04-27T09:00:00Z' },
-];
-
-const MOCK_DISCOUNTS = [
-  { id: 'd-001', code: 'WELCOME15', name: 'Welcome Discount', type: 'percentage', value: 15, minOrder: 100, maxDiscount: 200, usageLimit: 500, usedCount: 234, startsAt: '2026-01-01', endsAt: '2026-12-31', isActive: true },
-  { id: 'd-002', code: 'LEATHER50', name: 'Leather Month', type: 'fixed_amount', value: 50, minOrder: 300, maxDiscount: null, usageLimit: 100, usedCount: 67, startsAt: '2026-04-01', endsAt: '2026-04-30', isActive: true },
-  { id: 'd-003', code: 'VIP25', name: 'VIP Exclusive', type: 'percentage', value: 25, minOrder: 500, maxDiscount: 400, usageLimit: 50, usedCount: 12, startsAt: '2026-01-01', endsAt: null, isActive: true },
-  { id: 'd-004', code: 'SUMMER10', name: 'Summer Sale', type: 'percentage', value: 10, minOrder: null, maxDiscount: 100, usageLimit: 1000, usedCount: 845, startsAt: '2025-06-01', endsAt: '2025-09-30', isActive: false },
-];
-
-const ORDER_STATUSES = ['pending', 'confirmed', 'processing', 'shipped', 'delivered', 'cancelled'];
 
 /* ─────────────────────── STATUS BADGE ─────────────────────── */
 function StatusBadge({ status }) {

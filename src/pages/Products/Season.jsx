@@ -1,7 +1,8 @@
 import { Link } from 'react-router-dom';
 import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion';
 import { useRef, useMemo, useState } from 'react';
-import { PRODUCTS, StarRating } from './Products';
+import { PRODUCTS } from '../../data/products';
+import { StarRating } from './Products';
 import './Season.css';
 
 const SEASON_ORDER = ['winter', 'spring', 'summer', 'autumn'];

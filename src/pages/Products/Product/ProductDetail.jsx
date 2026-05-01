@@ -1,6 +1,10 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
-import { PRODUCTS, StarRating } from '../Products';
+import { useSelector, useDispatch } from 'react-redux';
+import { StarRating } from '../Products';
+import { addToCart } from '../../../store/slices/cartSlice';
+import { setProduct, clearProduct } from '../../../store/slices/productSlice';
+import { useAuth } from '../../../components/AuthContext';
 import './ProductDetail.css';
 
 const REVIEWER_NAMES = ['Marie D.', 'Thomas L.', 'Sophie M.', 'Antoine R.', 'Camille B.', 'Hugo P.', 'Emma V.', 'Lucas G.', 'Léa F.', 'Nathan C.', 'Chloé K.', 'Maxime J.'];
@@ -46,6 +50,11 @@ function ProductDetail() {
     () => (product ? generateReviews(product.id, product.reviewCount) : []),
     [product]
   );
+
+  useEffect(() => {
+    setProduct(product);
+    return () => clearProduct();
+  }, [product]);
 
   if (!product) {
     return (
@@ -163,12 +172,33 @@ function ProductDetail() {
               <span>{quantity}</span>
               <button onClick={() => setQuantity(q => Math.min(product.stock, q + 1))} disabled={outOfStock}>+</button>
             </div>
-            <button className={`btn btn--gradient pd__add-cart ${outOfStock ? 'disabled' : ''}`} disabled={outOfStock}>
+            <button
+              className={`btn btn--gradient pd__add-cart ${outOfStock ? 'disabled' : ''}`}
+              disabled={outOfStock}
+              onClick={() => {
+                if (outOfStock) return;
+                dispatch(addToCart({
+                  product_id: product.id,
+                  product_variant_id: `${product.id}-${(selectedColor || product.color).toLowerCase().replace(/\s/g, '-')}-${(selectedSize || product.sizes?.[0] || 'os').toLowerCase()}`,
+                  product_name: product.name,
+                  quantity,
+                  unit_price: product.price,
+                  currency: 'EUR',
+                  customization_summary: null,
+                }));
+              }}
+            >
               <span className="material-symbols-outlined">shopping_bag</span>
               {outOfStock ? 'Out of Stock' : 'Add to Cart'}
             </button>
-            <button className="pd__wishlist" aria-label="Add to wishlist">
-              <span className="material-symbols-outlined">favorite_border</span>
+            <button
+              className="pd__wishlist"
+              aria-label="Add to wishlist"
+              onClick={() => toggleWishlist(product.slug)}
+            >
+              <span className="material-symbols-outlined">
+                {wishlist.includes(product.slug) ? 'favorite' : 'favorite_border'}
+              </span>
             </button>
           </div>
 
@@ -282,7 +312,7 @@ function ProductDetail() {
           <h2 className="section__title--center">You May Also <em>Like</em></h2>
           <div className="section__divider" />
           <div className="products products--catalog" style={{ maxWidth: '900px', margin: '0 auto' }}>
-            {PRODUCTS
+            {products
               .filter(p => p.season === product.season && p.id !== product.id)
               .slice(0, 3)
               .map(p => (

@@ -21,7 +21,7 @@ import { setProducts } from './store/slices/productsSlice';
 import { setUser } from './store/slices/userSlice';
 import { setCart } from './store/slices/cartSlice';
 import { setOrders } from './store/slices/ordersSlice';
-import { PRODUCTS } from './pages/Products/Products';
+import { PRODUCTS } from './data/products';
 
 /* Instant scroll top */
 function ScrollToTop() {

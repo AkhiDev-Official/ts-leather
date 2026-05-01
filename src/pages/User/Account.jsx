@@ -1,7 +1,8 @@
 import { useState, useEffect, useMemo } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../../components/AuthContext';
-import { PRODUCTS, StarRating } from '../Products/Products';
+import { useSelector } from 'react-redux';
+import { StarRating } from '../Products/Products';
 import './Account.css';
 
 const TABS = [
@@ -41,7 +42,11 @@ function formatCurrency(n) {
 }
 
 function Account() {
-  const { user, isAuthenticated, logout, updateProfile, orders, addresses, addAddress, removeAddress, wishlist, toggleWishlist } = useAuth();
+  const { logout, updateProfile, addresses, addAddress, removeAddress, wishlist, toggleWishlist } = useAuth();
+  const user = useSelector((s) => s.user.user);
+  const isAuthenticated = useSelector((s) => !!s.user.user);
+  const orders = useSelector((s) => s.orders.list);
+  const products = useSelector((s) => s.products.list);
   const navigate = useNavigate();
   const location = useLocation();
   const initialTab = new URLSearchParams(location.search).get('tab') || 'overview';
@@ -57,8 +62,8 @@ function Account() {
   const [addrForm, setAddrForm] = useState({ type: 'shipping', firstName: '', lastName: '', phone: '', addressLine1: '', addressLine2: '', city: '', postalCode: '', country: 'France', isDefault: false });
 
   const wishlistProducts = useMemo(
-    () => wishlist.map(slug => PRODUCTS.find(p => p.slug === slug)).filter(Boolean),
-    [wishlist]
+    () => wishlist.map(slug => products.find(p => p.slug === slug)).filter(Boolean),
+    [wishlist, products]
   );
 
   if (!isAuthenticated) {
