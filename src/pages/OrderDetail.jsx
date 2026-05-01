@@ -1,6 +1,7 @@
 import { useMemo } from "react";
 import { useSelector } from "react-redux";
 import { Link, useNavigate, useParams } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import "./OrderDetail.css";
 
 const STATUS_COLORS = {
@@ -44,6 +45,7 @@ function formatCurrency(n) {
 
 function OrderDetail() {
   const { orderNumber } = useParams();
+  const { t } = useTranslation();
   const orders = useSelector((s) => s.orders.list);
   const isAuthenticated = useSelector((s) => !!s.user.user);
   const navigate = useNavigate();
@@ -68,13 +70,13 @@ function OrderDetail() {
           >
             search_off
           </span>
-          <h2>Order Not Found</h2>
+          <h2>{t('order_detail.not_found')}</h2>
           <p>
-            We couldn't find an order with number <strong>{orderNumber}</strong>
+            {t('order_detail.not_found_desc')} <strong>{orderNumber}</strong>
             .
           </p>
           <Link to="/account" className="btn btn--solid">
-            Back to Account
+            {t('order_detail.back_to_account')}
           </Link>
         </div>
       </main>
@@ -87,9 +89,9 @@ function OrderDetail() {
     <main className="odet">
       {/* Breadcrumb */}
       <nav className="pd__breadcrumb container">
-        <Link to="/">Home</Link>
+        <Link to="/">{t('order_detail.home')}</Link>
         <span className="material-symbols-outlined">chevron_right</span>
-        <Link to="/account">My Account</Link>
+        <Link to="/account">{t('order_detail.my_account')}</Link>
         <span className="material-symbols-outlined">chevron_right</span>
         <span className="pd__breadcrumb-current">{order.orderNumber}</span>
       </nav>
@@ -98,9 +100,9 @@ function OrderDetail() {
         {/* Header */}
         <div className="odet__header">
           <div>
-            <h1 className="odet__title">Order {order.orderNumber}</h1>
+            <h1 className="odet__title">{t('order_detail.order_title', { number: order.orderNumber })}</h1>
             <span className="odet__date">
-              Placed {formatDate(order.orderedAt, true)}
+              {t('order_detail.placed', { date: formatDate(order.orderedAt, true) })}
             </span>
           </div>
           <span
@@ -120,7 +122,7 @@ function OrderDetail() {
 
         {/* Timeline */}
         <section className="odet__timeline">
-          <h3 className="odet__section-title">Order Timeline</h3>
+          <h3 className="odet__section-title">{t('order_detail.timeline')}</h3>
           <div className="odet__timeline-track">
             {order.statusHistory.map((step, i) => {
               const isLast = i === order.statusHistory.length - 1;
@@ -166,7 +168,7 @@ function OrderDetail() {
           {/* Items */}
           <section className="odet__items">
             <h3 className="odet__section-title">
-              Items ({order.items.length})
+              {t('order_detail.items', { count: order.items.length })}
             </h3>
             {order.items.map((item) => (
               <div key={item.id} className="odet__item">
@@ -184,11 +186,11 @@ function OrderDetail() {
                     {item.productName}
                   </Link>
                   <div className="odet__item-meta">
-                    <span>SKU: {item.variantSku}</span>
+                    <span>{t('order_detail.sku', { sku: item.variantSku })}</span>
                     <span>
                       {item.color} • {item.sizeLabel}
                     </span>
-                    <span>Qty: {item.quantity}</span>
+                    <span>{t('order_detail.qty', { qty: item.quantity })}</span>
                   </div>
                   {item.customizationSummary && (
                     <div className="odet__item-custom">
@@ -209,7 +211,7 @@ function OrderDetail() {
                   </span>
                   {item.customizationPrice > 0 && (
                     <span className="odet__item-cust">
-                      +{formatCurrency(item.customizationPrice)} custom
+                      +{formatCurrency(item.customizationPrice)} {t('order_detail.custom_label')}
                     </span>
                   )}
                   {item.discountAmount > 0 && (
@@ -226,44 +228,44 @@ function OrderDetail() {
           <div className="odet__aside">
             {/* Summary */}
             <div className="odet__card">
-              <h3 className="odet__card-title">Order Summary</h3>
+              <h3 className="odet__card-title">{t('order_detail.order_summary')}</h3>
               <div className="odet__summary-row">
-                <span>Subtotal</span>
+                <span>{t('order_detail.subtotal')}</span>
                 <span>{formatCurrency(order.subtotalAmount)}</span>
               </div>
               {order.customizationAmount > 0 && (
                 <div className="odet__summary-row">
-                  <span>Customization</span>
+                  <span>{t('order_detail.customization')}</span>
                   <span>+{formatCurrency(order.customizationAmount)}</span>
                 </div>
               )}
               {order.discountAmount > 0 && (
                 <div className="odet__summary-row odet__summary-row--disc">
-                  <span>Discount</span>
+                  <span>{t('order_detail.discount')}</span>
                   <span>-{formatCurrency(order.discountAmount)}</span>
                 </div>
               )}
               <div className="odet__summary-row">
-                <span>Shipping</span>
+                <span>{t('order_detail.shipping')}</span>
                 <span>
                   {order.shippingAmount > 0
                     ? formatCurrency(order.shippingAmount)
-                    : "Free"}
+                    : t('order_detail.free')}
                 </span>
               </div>
               <div className="odet__summary-row">
-                <span>Tax (VAT)</span>
+                <span>{t('order_detail.tax_vat')}</span>
                 <span>{formatCurrency(order.taxAmount)}</span>
               </div>
               <div className="odet__summary-total">
-                <span>Total</span>
+                <span>{t('order_detail.total')}</span>
                 <span>{formatCurrency(order.totalAmount)}</span>
               </div>
             </div>
 
             {/* Payment */}
             <div className="odet__card">
-              <h3 className="odet__card-title">Payment</h3>
+              <h3 className="odet__card-title">{t('order_detail.payment')}</h3>
               <div className="odet__pay-info">
                 <span className="material-symbols-outlined">
                   {PAYMENT_ICONS[order.payment?.provider] || "credit_card"}
@@ -294,21 +296,21 @@ function OrderDetail() {
               <div className="odet__card">
                 <h3 className="odet__card-title">Shipping</h3>
                 <div className="odet__ship-row">
-                  <span>Carrier</span>
+                  <span>{t('order_detail.carrier')}</span>
                   <span>{order.shipment.carrier}</span>
                 </div>
                 <div className="odet__ship-row">
-                  <span>Method</span>
+                  <span>{t('order_detail.method')}</span>
                   <span>{order.shipment.shippingMethod}</span>
                 </div>
                 <div className="odet__ship-row">
-                  <span>Tracking</span>
+                  <span>{t('order_detail.tracking')}</span>
                   <span className="odet__tracking-num">
                     {order.shipment.trackingNumber}
                   </span>
                 </div>
                 <div className="odet__ship-row">
-                  <span>Status</span>
+                  <span>{t('order_detail.status')}</span>
                   <span style={{ textTransform: "capitalize" }}>
                     {order.shipment.status.replace(/_/g, " ")}
                   </span>
@@ -318,7 +320,7 @@ function OrderDetail() {
 
             {/* Addresses */}
             <div className="odet__card">
-              <h3 className="odet__card-title">Shipping Address</h3>
+              <h3 className="odet__card-title">{t('order_detail.shipping_address')}</h3>
               <p className="odet__addr">
                 {order.shippingAddress.firstName}{" "}
                 {order.shippingAddress.lastName}
@@ -337,7 +339,7 @@ function OrderDetail() {
 
             {order.customerNote && (
               <div className="odet__card">
-                <h3 className="odet__card-title">Customer Note</h3>
+                <h3 className="odet__card-title">{t('order_detail.customer_note')}</h3>
                 <p className="odet__note">{order.customerNote}</p>
               </div>
             )}
@@ -347,7 +349,7 @@ function OrderDetail() {
         <div className="odet__footer-actions">
           <Link to="/account" className="btn btn--solid">
             <span className="material-symbols-outlined">arrow_back</span>
-            Back to Account
+            {t('order_detail.back_to_account')}
           </Link>
         </div>
       </div>

@@ -5,6 +5,7 @@ import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 import store, { persistor } from './store';
 import { AuthProvider } from './components/AuthContext';
+import './i18n/index.js';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(

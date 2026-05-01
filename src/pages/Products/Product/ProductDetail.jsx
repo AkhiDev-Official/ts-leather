@@ -1,6 +1,7 @@
 import { useState, useMemo, useEffect } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 import { StarRating } from '../Products';
 import { addToCart } from '../../../store/slices/cartSlice';
 import { setProduct, clearProduct } from '../../../store/slices/productSlice';
@@ -37,8 +38,13 @@ function generateReviews(productId, count) {
 
 function ProductDetail() {
   const { slug } = useParams();
+  const { t } = useTranslation();
   const navigate = useNavigate();
-  const product = PRODUCTS.find(p => p.slug === slug);
+  const products = useSelector(s => s.products.list);
+  const dispatch = useDispatch();
+  const { user } = useAuth();
+  const wishlist = useSelector(s => s.user?.user?.wishlist || []);
+  const product = products.find(p => p.slug === slug);
 
   const [mainImg, setMainImg] = useState(0);
   const [selectedSize, setSelectedSize] = useState(null);
@@ -61,9 +67,9 @@ function ProductDetail() {
       <main className="pd">
         <div className="container pd__not-found">
           <span className="material-symbols-outlined" style={{ fontSize: '3rem', opacity: 0.3 }}>search_off</span>
-          <h2>Product Not Found</h2>
-          <p>The product you're looking for doesn't exist.</p>
-          <Link to="/products" className="btn btn--solid">Back to Products</Link>
+          <h2>{t('product_detail.not_found')}</h2>
+          <p>{t('product_detail.not_found_desc')}</p>
+          <Link to="/products" className="btn btn--solid">{t('product_detail.back_to_products')}</Link>
         </div>
       </main>
     );
@@ -75,9 +81,9 @@ function ProductDetail() {
   return (
     <main className="pd">
       <nav className="pd__breadcrumb container">
-        <Link to="/">Home</Link>
+        <Link to="/">{t('product_detail.home')}</Link>
         <span className="material-symbols-outlined">chevron_right</span>
-        <Link to="/products">Products</Link>
+        <Link to="/products">{t('product_detail.products')}</Link>
         <span className="material-symbols-outlined">chevron_right</span>
         <span className="pd__breadcrumb-current">{product.name}</span>
       </nav>
@@ -100,17 +106,17 @@ function ProductDetail() {
           <div className="pd__main-img">
             <img src={images[mainImg]} alt={product.name} />
             {product.discount > 0 && <span className="pd__sale-badge">-{product.discount}%</span>}
-            {product.isFeatured && <span className="pd__featured-badge">Best Seller</span>}
+            {product.isFeatured && <span className="pd__featured-badge">{t('product_detail.best_seller')}</span>}
           </div>
         </div>
 
         {/* Info */}
         <div className="pd__info">
-          <span className="pd__cat">{product.cat} · {product.season} collection</span>
+          <span className="pd__cat">{product.cat} · {product.season} {t('product_detail.collection_label')}</span>
           <h1 className="pd__name">{product.name}</h1>
           <div className="pd__rating-row">
             <StarRating rating={product.rating} count={product.reviewCount} size="md" />
-            <span className="pd__sold">{product.soldCount} sold</span>
+            <span className="pd__sold">{t('product_detail.sold', { count: product.soldCount })}</span>
           </div>
           <p className="pd__short-desc">{product.shortDesc}</p>
 
@@ -121,7 +127,7 @@ function ProductDetail() {
             )}
             <span className="pd__price">${product.price.toLocaleString()}</span>
             {product.discount > 0 && (
-              <span className="pd__save">Save {product.discount}%</span>
+              <span className="pd__save">{t('product_detail.save_pct', { pct: product.discount })}</span>
             )}
           </div>
 
@@ -189,11 +195,11 @@ function ProductDetail() {
               }}
             >
               <span className="material-symbols-outlined">shopping_bag</span>
-              {outOfStock ? 'Out of Stock' : 'Add to Cart'}
+              {outOfStock ? t('product_detail.out_of_stock') : t('product_detail.add_to_cart')}
             </button>
             <button
               className="pd__wishlist"
-              aria-label="Add to wishlist"
+              aria-label={t('product_detail.add_to_wishlist')}
               onClick={() => toggleWishlist(product.slug)}
             >
               <span className="material-symbols-outlined">
@@ -206,18 +212,18 @@ function ProductDetail() {
           {product.isCustomizable && (
             <Link to={`/customize/${product.slug}`} className="btn btn--solid pd__customize-cta">
               <span className="material-symbols-outlined">brush</span>
-              Customize This Product
+              {t('product_detail.customize_cta')}
             </Link>
           )}
 
           {/* Stock */}
           <div className="pd__stock-row">
             {outOfStock ? (
-              <span className="stock stock--out">Currently out of stock</span>
+              <span className="stock stock--out">{t('product_detail.out_of_stock_msg')}</span>
             ) : product.stock <= 5 ? (
-              <span className="stock stock--low">⚡ Only {product.stock} left — order soon</span>
+              <span className="stock stock--low">{t('product_detail.low_stock', { count: product.stock })}</span>
             ) : (
-              <span className="stock stock--in">✓ In stock — ready to ship</span>
+              <span className="stock stock--in">{t('product_detail.in_stock_ready')}</span>
             )}
           </div>
 
@@ -229,16 +235,16 @@ function ProductDetail() {
             </div>
             <div className="pd__detail-item">
               <span className="material-symbols-outlined">local_shipping</span>
-              <span>Free shipping over $500</span>
+              <span>{t('product_detail.free_shipping')}</span>
             </div>
             <div className="pd__detail-item">
               <span className="material-symbols-outlined">undo</span>
-              <span>30-day returns</span>
+              <span>{t('product_detail.returns')}</span>
             </div>
             {product.isCustomizable && (
               <div className="pd__detail-item pd__detail-item--accent">
                 <span className="material-symbols-outlined">brush</span>
-                <span>Customizable — make it yours</span>
+                <span>{t('product_detail.customizable_detail')}</span>
               </div>
             )}
           </div>
@@ -248,10 +254,10 @@ function ProductDetail() {
       {/* Tabs: Description, Care, Reviews */}
       <section className="pd__tabs-section container">
         <div className="pd__tab-bar">
-          <button className={`pd__tab ${tab === 'description' ? 'active' : ''}`} onClick={() => setTab('description')}>Description</button>
-          <button className={`pd__tab ${tab === 'care' ? 'active' : ''}`} onClick={() => setTab('care')}>Care Instructions</button>
+          <button className={`pd__tab ${tab === 'description' ? 'active' : ''}`} onClick={() => setTab('description')}>{t('product_detail.tab_description')}</button>
+          <button className={`pd__tab ${tab === 'care' ? 'active' : ''}`} onClick={() => setTab('care')}>{t('product_detail.tab_care')}</button>
           <button className={`pd__tab ${tab === 'reviews' ? 'active' : ''}`} onClick={() => setTab('reviews')}>
-            Reviews ({product.reviewCount})
+            {t('product_detail.tab_reviews', { count: product.reviewCount })}
           </button>
         </div>
 
@@ -260,11 +266,11 @@ function ProductDetail() {
             <div className="pd__description">
               <p>{product.description}</p>
               <ul className="pd__specs">
-                <li><strong>Material:</strong> {product.material}</li>
-                <li><strong>Leather Type:</strong> {product.leather}</li>
-                <li><strong>Color:</strong> {product.color}</li>
-                <li><strong>Season:</strong> {product.season.charAt(0).toUpperCase() + product.season.slice(1)} Collection</li>
-                {product.isCustomizable && <li><strong>Customization:</strong> Available — monogram, color, hardware</li>}
+                <li><strong>{t('product_detail.spec_material')}</strong> {product.material}</li>
+                <li><strong>{t('product_detail.spec_leather_type')}</strong> {product.leather}</li>
+                <li><strong>{t('product_detail.spec_color')}</strong> {product.color}</li>
+                <li><strong>{t('product_detail.spec_season')}</strong> {product.season.charAt(0).toUpperCase() + product.season.slice(1)} {t('product_detail.collection_label')}</li>
+                {product.isCustomizable && <li><strong>{t('product_detail.spec_customization')}</strong> {t('product_detail.spec_customization_val')}</li>}
               </ul>
             </div>
           )}
@@ -282,7 +288,7 @@ function ProductDetail() {
                   <span className="pd__reviews-big">{product.rating}</span>
                   <div>
                     <StarRating rating={product.rating} size="lg" />
-                    <span className="pd__reviews-total">{product.reviewCount} reviews</span>
+                    <span className="pd__reviews-total">{t('product_detail.reviews_total', { count: product.reviewCount })}</span>
                   </div>
                 </div>
               </div>
@@ -292,7 +298,7 @@ function ProductDetail() {
                     <div className="pd__review-header">
                       <div>
                         <strong className="pd__review-name">{r.name}</strong>
-                        {r.verified && <span className="pd__review-verified">✓ Verified Purchase</span>}
+                        {r.verified && <span className="pd__review-verified">{t('product_detail.verified_purchase')}</span>}
                       </div>
                       <span className="pd__review-date">{r.date}</span>
                     </div>
@@ -309,7 +315,7 @@ function ProductDetail() {
       {/* Related Products */}
       <section className="section section--dark">
         <div className="container">
-          <h2 className="section__title--center">You May Also <em>Like</em></h2>
+          <h2 className="section__title--center">{t('product_detail.related_title_1')} <em>{t('product_detail.related_title_2')}</em></h2>
           <div className="section__divider" />
           <div className="products products--catalog" style={{ maxWidth: '900px', margin: '0 auto' }}>
             {products

@@ -2,16 +2,10 @@ import { useState, useEffect, useMemo } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { addToCart } from "../../store/slices/cartSlice";
+import { useTranslation } from "react-i18next";
 import "./Products.css";
 
-const SORT_OPTIONS = [
-  { value: "featured", label: "Featured" },
-  { value: "newest", label: "Newest" },
-  { value: "price-asc", label: "Price: Low → High" },
-  { value: "price-desc", label: "Price: High → Low" },
-  { value: "rating", label: "Top Rated" },
-  { value: "bestselling", label: "Best Selling" },
-];
+const SORT_VALUES = ["featured", "newest", "price-asc", "price-desc", "rating", "bestselling"];
 
 function sortProducts(products, sortBy) {
   const s = [...products];
@@ -85,6 +79,7 @@ function matchesPrice(price, range) {
 }
 
 function Products() {
+  const { t } = useTranslation();
   const location = useLocation();
   const navigate = useNavigate();
   const catParam = new URLSearchParams(location.search).get("cat");
@@ -168,7 +163,10 @@ function Products() {
   const activeTags = [];
   FILTER_GROUPS.forEach((g) => {
     filters[g.name].forEach((v) => {
-      const label = g.labels ? g.labels[v] : v;
+      const label =
+        g.name === "price" ? t(`products.price_${v}`) :
+        (g.name === "cat" || g.name === "season") ? t(`nav.${v}`) :
+        v.charAt(0).toUpperCase() + v.slice(1);
       activeTags.push({ group: g.name, value: v, label });
     });
   });
@@ -184,9 +182,9 @@ function Products() {
           <img src="/assets/leather.jpg" alt="Leather texture" />
         </div>
         <div className="page-hero__content">
-          <span className="label">Our Collection</span>
+          <span className="label">{t('products.collection_label')}</span>
           <h1 className="page-hero__title">
-            All <em>Products</em>
+            <em>{t('products.title')}</em>
           </h1>
         </div>
       </section>
@@ -202,23 +200,23 @@ function Products() {
               <input
                 type="text"
                 className="toolbar__input"
-                placeholder="Search leather goods..."
+                placeholder={t('products.search_placeholder')}
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
               />
             </div>
             <div className="toolbar__meta">
               <span className="toolbar__count">
-                {filtered.length} product{filtered.length !== 1 ? "s" : ""}
+                {t('products.count', { count: filtered.length })}
               </span>
               <select
                 className="toolbar__sort"
                 value={sort}
                 onChange={(e) => setSort(e.target.value)}
               >
-                {SORT_OPTIONS.map((o) => (
-                  <option key={o.value} value={o.value}>
-                    {o.label}
+                {SORT_VALUES.map((v) => (
+                  <option key={v} value={v}>
+                    {t('products.sort_' + v.replace(/-/g, '_'))}
                   </option>
                 ))}
               </select>
@@ -226,7 +224,7 @@ function Products() {
                 <span className="material-symbols-outlined">
                   filter_list_off
                 </span>
-                Clear
+                {t('products.clear')}
               </button>
             </div>
           </div>
@@ -270,7 +268,7 @@ function Products() {
 
               {FILTER_GROUPS.map((group) => (
                 <div className="filter-group" key={group.name}>
-                  <h3 className="filter-group__title">{group.title}</h3>
+                  <h3 className="filter-group__title">{t('products.filter_' + group.name)}</h3>
                   <div className="filter-group__options">
                     {group.options.map((opt) => (
                       <label className="filter-opt" key={opt}>
@@ -280,9 +278,9 @@ function Products() {
                           onChange={() => toggleFilter(group.name, opt)}
                         />
                         <span>
-                          {group.labels
-                            ? group.labels[opt]
-                            : opt.charAt(0).toUpperCase() + opt.slice(1)}
+                          {group.name === "price" ? t(`products.price_${opt}`) :
+                           (group.name === "cat" || group.name === "season") ? t(`nav.${opt}`) :
+                           opt.charAt(0).toUpperCase() + opt.slice(1)}
                         </span>
                       </label>
                     ))}
@@ -298,7 +296,7 @@ function Products() {
                 onClick={() => setSidebarOpen(true)}
               >
                 <span className="material-symbols-outlined">tune</span>
-                Filters
+                {t('products.filters')}
               </button>
 
               {filtered.length === 0 ? (
@@ -307,10 +305,10 @@ function Products() {
                     search_off
                   </span>
                   <p className="catalog__empty-text">
-                    No products match your filters.
+                    {t('products.no_results')}
                   </p>
                   <button className="btn btn--solid" onClick={reset}>
-                    Clear Filters
+                    {t('products.clear_filters')}
                   </button>
                 </div>
               ) : (
@@ -336,12 +334,12 @@ function Products() {
                         )}
                         {p.isFeatured && (
                           <span className="product-card__featured">
-                            Best Seller
+                            {t('products.best_seller')}
                           </span>
                         )}
                         <button
                           className="product-card__cart"
-                          aria-label="Add to cart"
+                          aria-label={t('home.add_to_cart')}
                           onClick={(e) => {
                             e.preventDefault();
                             e.stopPropagation();
@@ -384,14 +382,14 @@ function Products() {
                           className={`stock ${p.stock === 0 ? "stock--out" : p.stock <= 5 ? "stock--low" : "stock--in"}`}
                         >
                           {p.stock === 0
-                            ? "Out of Stock"
+                            ? t('products.out_of_stock')
                             : p.stock <= 5
-                              ? `Only ${p.stock} left`
-                              : "In Stock"}
+                              ? t('products.only_left', { count: p.stock })
+                              : t('products.in_stock')}
                         </span>
                         {p.isCustomizable && (
                           <span className="product-card__custom">
-                            Customizable
+                            {t('products.customizable')}
                           </span>
                         )}
                       </div>
