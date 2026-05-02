@@ -1,6 +1,8 @@
 .navbar {
-  position: sticky;
+  position: fixed;
   top: 0;
+  left: 0;
+  right: 0;
   z-index: 100;
   background: rgba(28, 23, 20, 0.95);
   border-bottom: 1px solid rgba(193, 148, 55, 0.25);
@@ -539,4 +541,32 @@
 .navbar__dropdown-item--logout:hover {
   background: rgba(180, 64, 64, 0.08);
   color: #d05050;
+}
+
+.navbar__cart-btn {
+  position: relative;
+  display: grid;
+  place-items: center;
+  background: none;
+  color: var(--text);
+  transition: color 0.2s;
+}
+.navbar__cart-btn:hover { color: var(--gold); }
+
+.navbar__cart-badge {
+  position: absolute;
+  top: -6px;
+  right: -8px;
+  background: var(--gold);
+  color: var(--dark-choco);
+  font-size: 0.6rem;
+  font-weight: 700;
+  min-width: 18px;
+  height: 18px;
+  border-radius: 9px;
+  display: grid;
+  place-items: center;
+  padding: 0 4px;
+  font-family: var(--ff-sans);
+  line-height: 1;
 }

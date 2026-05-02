@@ -306,5 +306,31 @@
     "intro_2": "Unsplash",
     "view_on_unsplash": "Voir sur Unsplash",
     "license": "Toutes les photographies sont utilisées sous licence Unsplash — libre d'utilisation à des fins commerciales et non commerciales. Aucune permission n'est requise, mais la mention de la source est toujours appréciée."
+  },
+  "cart": {
+    "label": "Sac de Shopping",
+    "title_1": "Votre",
+    "title_2": "Panier",
+    "home": "Accueil",
+    "item_one": "{{count}} article",
+    "item_other": "{{count}} articles",
+    "empty_title": "Votre panier est vide",
+    "empty_desc": "Vous n'avez encore rien ajouté.",
+    "browse": "Parcourir la Collection",
+    "remove": "Supprimer",
+    "subtotal": "Sous-total",
+    "shipping": "Livraison",
+    "shipping_free": "Gratuit",
+    "shipping_threshold": "Livraison offerte dès €500 d'achat",
+    "shipping_cost": "€15,00",
+    "total": "Total",
+    "checkout": "Passer la commande",
+    "continue": "Continuer mes achats",
+    "clear": "Vider le panier",
+    "size": "Taille",
+    "color": "Couleur",
+    "qty": "Qté",
+    "customized": "Personnalisé",
+    "saved": "Économisé {{amount}}"
   }
 }

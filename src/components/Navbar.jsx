@@ -3,6 +3,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "./AuthContext";
 import "./Navbar.css";
 import { useTranslation } from "react-i18next";
+import { useSelector } from "react-redux";
 
 const NAV_LINKS = [
   { label: "Men", cat: "men" },
@@ -73,6 +74,10 @@ function Navbar() {
     navigate("/");
   }
 
+  const cartCount = useSelector((s) =>
+    s.cart.items.reduce((acc, i) => acc + i.quantity, 0),
+  );
+
   const hoverOpen = useCallback(
     (setter) => {
       if (!isMobile)
@@ -115,7 +120,7 @@ function Navbar() {
               onClick={() => setCollectionsOpen((o) => !o)}
               aria-expanded={collectionsOpen}
             >
-              {t('nav.collections')}
+              {t("nav.collections")}
               <span className="material-symbols-outlined navbar__dropdown-arrow">
                 expand_more
               </span>
@@ -132,7 +137,7 @@ function Navbar() {
                   <span className="material-symbols-outlined navbar__dropdown-icon">
                     {icon}
                   </span>
-                  {t('nav.' + slug)}
+                  {t("nav." + slug)}
                 </Link>
               ))}
             </div>
@@ -148,7 +153,7 @@ function Navbar() {
                 handleCatClick(cat);
               }}
             >
-              {t('nav.' + cat)}
+              {t("nav." + cat)}
             </a>
           ))}
 
@@ -220,7 +225,7 @@ function Navbar() {
                   <span className="material-symbols-outlined">
                     admin_panel_settings
                   </span>{" "}
-                  {t('nav.admin_panel')}
+                  {t("nav.admin_panel")}
                 </Link>
               )}
               <button
@@ -230,7 +235,8 @@ function Navbar() {
                   handleLogout();
                 }}
               >
-                <span className="material-symbols-outlined">logout</span> {t('nav.sign_out')}
+                <span className="material-symbols-outlined">logout</span>{" "}
+                {t("nav.sign_out")}
               </button>
             </div>
           )}
@@ -241,18 +247,22 @@ function Navbar() {
                 className="navbar__mobile-account-link navbar__mobile-account-link--login"
                 onClick={() => setMenuOpen(false)}
               >
-                <span className="material-symbols-outlined">login</span> {t('nav.sign_in')}
+                <span className="material-symbols-outlined">login</span>{" "}
+                {t("nav.sign_in")}
               </Link>
             </div>
           )}
         </div>
 
         <div className="navbar__actions">
-          <button aria-label="Cart">
+          <Link to="/cart" className="navbar__cart-btn" aria-label="Cart">
             <span className="material-symbols-outlined icon--filled">
               shopping_bag
             </span>
-          </button>
+            {cartCount > 0 && (
+              <span className="navbar__cart-badge">{cartCount}</span>
+            )}
+          </Link>
 
           {/* Account */}
           <div
@@ -299,7 +309,7 @@ function Navbar() {
                   <span className="material-symbols-outlined navbar__dropdown-icon">
                     dashboard
                   </span>
-                  {t('nav.overview')}
+                  {t("nav.overview")}
                 </Link>
                 <Link
                   to="/account?tab=orders"
@@ -308,7 +318,7 @@ function Navbar() {
                   <span className="material-symbols-outlined navbar__dropdown-icon">
                     receipt_long
                   </span>
-                  {t('nav.my_orders')}
+                  {t("nav.my_orders")}
                 </Link>
                 <Link
                   to="/account?tab=wishlist"
@@ -317,7 +327,7 @@ function Navbar() {
                   <span className="material-symbols-outlined navbar__dropdown-icon">
                     favorite
                   </span>
-                  {t('nav.wishlist')}
+                  {t("nav.wishlist")}
                 </Link>
                 <Link
                   to="/account?tab=addresses"
@@ -326,7 +336,7 @@ function Navbar() {
                   <span className="material-symbols-outlined navbar__dropdown-icon">
                     location_on
                   </span>
-                  {t('nav.addresses')}
+                  {t("nav.addresses")}
                 </Link>
                 <Link
                   to="/account?tab=profile"
@@ -335,7 +345,7 @@ function Navbar() {
                   <span className="material-symbols-outlined navbar__dropdown-icon">
                     person
                   </span>
-                  {t('nav.profile')}
+                  {t("nav.profile")}
                 </Link>
                 <button
                   className="navbar__dropdown-item navbar__dropdown-item--logout"
@@ -344,7 +354,7 @@ function Navbar() {
                   <span className="material-symbols-outlined navbar__dropdown-icon">
                     logout
                   </span>
-                  {t('nav.sign_out')}
+                  {t("nav.sign_out")}
                 </button>
               </div>
             )}

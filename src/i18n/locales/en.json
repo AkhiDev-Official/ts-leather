@@ -306,5 +306,31 @@
     "intro_2": "Unsplash",
     "view_on_unsplash": "View on Unsplash",
     "license": "All photographs are used under the Unsplash License — free to use for commercial and non-commercial purposes. No permission needed, but attribution is always appreciated."
+  },
+  "cart": {
+    "label": "Shopping Bag",
+    "title_1": "Your",
+    "title_2": "Cart",
+    "home": "Home",
+    "item_one": "{{count}} item",
+    "item_other": "{{count}} items",
+    "empty_title": "Your cart is empty",
+    "empty_desc": "Looks like you haven't added anything yet.",
+    "browse": "Browse Collection",
+    "remove": "Remove",
+    "subtotal": "Subtotal",
+    "shipping": "Shipping",
+    "shipping_free": "Free",
+    "shipping_threshold": "Free shipping on orders over €500",
+    "shipping_cost": "€15.00",
+    "total": "Total",
+    "checkout": "Proceed to Checkout",
+    "continue": "Continue Shopping",
+    "clear": "Clear cart",
+    "size": "Size",
+    "color": "Color",
+    "qty": "Qty",
+    "customized": "Customized",
+    "saved": "Saved {{amount}}"
   }
 }

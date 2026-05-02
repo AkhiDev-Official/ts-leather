@@ -14,6 +14,7 @@ import Register from './pages/User/Register';
 import Account from './pages/User/Account';
 import OrderDetail from './pages/OrderDetail';
 import Admin from './pages/Admin/Admin';
+import Cart from './pages/Cart';
 import { Winter, Spring, Summer, Autumn } from './pages/Products/Season';
 import './styles/global.css';
 import { useDispatch } from 'react-redux';
@@ -77,6 +78,7 @@ function AppShell() {
         <Route path="/account" element={<Account />} />
         <Route path="/order/:orderNumber" element={<OrderDetail />} />
         <Route path="/admin" element={<Admin />} />
+        <Route path="/cart" element={<Cart />} />
         <Route path="/credits" element={<Credits />} />
       </Routes>
       {!isAdmin && <Footer />}
