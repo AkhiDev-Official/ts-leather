@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import './Credits.css';
 
 const CREDITS = [
@@ -53,18 +54,19 @@ const CREDITS = [
 ];
 
 function Credits() {
+  const { t } = useTranslation();
   return (
     <main className="credits">
       <section className="credits__hero">
         <div className="container">
-          <span className="label">Acknowledgements</span>
-          <h1 className="credits__title">Photo <em>Credits</em></h1>
+          <span className="label">{t('credits.label')}</span>
+          <h1 className="credits__title">{t('credits.title_1')} <em>{t('credits.title_2')}</em></h1>
           <p className="credits__intro">
-            Beautiful photography is at the heart of our visual identity. We are grateful to the
-            talented photographers who share their work on{' '}
+            {t('credits.intro_1')}{' '}
             <a href="https://unsplash.com" target="_blank" rel="noopener noreferrer" className="credits__unsplash-link">
               Unsplash
-            </a>.
+            </a>
+            {t('credits.intro_2')}
           </p>
         </div>
       </section>
@@ -88,7 +90,7 @@ function Credits() {
                     rel="noopener noreferrer"
                     className="credits__photo-link"
                   >
-                    View on Unsplash
+                    {t('credits.view_on_unsplash')}
                     <span className="material-symbols-outlined">open_in_new</span>
                   </a>
                 </div>
@@ -98,14 +100,7 @@ function Credits() {
 
           <div className="credits__license">
             <span className="material-symbols-outlined credits__license-icon">license</span>
-            <p>
-              All photographs are used under the{' '}
-              <a href="https://unsplash.com/license" target="_blank" rel="noopener noreferrer">
-                Unsplash License
-              </a>{' '}
-              — free to use for commercial and non-commercial purposes. No permission needed, but
-              attribution is always appreciated.
-            </p>
+            <p>{t('credits.license')}</p>
           </div>
         </div>
       </section>

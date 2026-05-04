@@ -1,11 +1,12 @@
 import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import './Home.css';
 
 const SEASONS = [
-  { part: 'Part I', name: 'Winter', slug: 'winter', img: '/assets/winter.jpg' },
-  { part: 'Part II', name: 'Spring', slug: 'spring', img: '/assets/spring.jpg' },
-  { part: 'Part III', name: 'Summer', slug: 'summer', img: '/assets/summer.jpg' },
-  { part: 'Part IV', name: 'Autumn', slug: 'autumn', img: '/assets/fall.jpg' },
+  { partKey: 'home.season_part_1', nameKey: 'home.season_winter', slug: 'winter', img: '/assets/winter.jpg' },
+  { partKey: 'home.season_part_2', nameKey: 'home.season_spring', slug: 'spring', img: '/assets/spring.jpg' },
+  { partKey: 'home.season_part_3', nameKey: 'home.season_summer', slug: 'summer', img: '/assets/summer.jpg' },
+  { partKey: 'home.season_part_4', nameKey: 'home.season_autumn', slug: 'autumn', img: '/assets/fall.jpg' },
 ];
 
 const ESSENTIALS = [
@@ -14,13 +15,10 @@ const ESSENTIALS = [
   { name: 'The Moto Heritage', slug: 'the-moto-heritage', material: 'Steerhide Leather', price: '$950', img: '/assets/jacket.jpg' },
 ];
 
-const STEPS = [
-  { num: '01', text: 'Select your preferred leather type and color.' },
-  { num: '02', text: 'Configure your custom options and details.' },
-  { num: '03', text: 'Artisan craftsmanship brings your vision to life.' },
-];
+const STEP_KEYS = ['home.step_1', 'home.step_2', 'home.step_3'];
 
 function Home() {
+  const { t } = useTranslation();
   return (
     <main>
       {/* Hero */}
@@ -29,13 +27,13 @@ function Home() {
           <img src="/assets/jacket_main_full.jpg" alt="Signature Leather Jacket" />
         </div>
         <div className="hero__content">
-          <span className="label">TS Fashion Original Leather</span>
+          <span className="label">{t('home.hero_label')}</span>
           <h1 className="hero__title">
-            Precision in<br /><em>Every Stitch</em>
+            {t('home.hero_title_1')}<br /><em>{t('home.hero_title_2')}</em>
           </h1>
-          <Link to="/products" className="btn btn--gradient">Shop The Collection</Link>
+          <Link to="/products" className="btn btn--gradient">{t('home.hero_cta')}</Link>
         </div>
-        <div className="hero__stamp">Established XXXX — Tremblay, France</div>
+        <div className="hero__stamp">{t('home.hero_stamp')}</div>
       </section>
 
       {/* Seasonal Collections */}
@@ -43,21 +41,18 @@ function Home() {
         <div className="container">
           <div className="section__header">
             <h2 className="section__title">
-              Seasonal<br /><em>Collections</em>
+              {t('home.seasons_title_1')}<br /><em>{t('home.seasons_title_2')}</em>
             </h2>
-            <p className="section__desc">
-              From timeless classics to contemporary designs, our collections elevate your style
-              and provide lasting quality.
-            </p>
+            <p className="section__desc">{t('home.seasons_desc')}</p>
           </div>
           <div className="seasons">
-            {SEASONS.map(({ part, name, slug, img }) => (
-              <Link to={`/collection/${slug}`} className="season-card" key={name}>
-                <img className="season-card__img" src={img} alt={`${name} Collection`} />
+            {SEASONS.map(({ partKey, nameKey, slug, img }) => (
+              <Link to={`/collection/${slug}`} className="season-card" key={slug}>
+                <img className="season-card__img" src={img} alt={`${t(nameKey)} Collection`} />
                 <div className="season-card__overlay" />
                 <div className="season-card__info">
-                  <span className="season-card__part">{part}</span>
-                  <h3 className="season-card__name">{name}</h3>
+                  <span className="season-card__part">{t(partKey)}</span>
+                  <h3 className="season-card__name">{t(nameKey)}</h3>
                 </div>
               </Link>
             ))}
@@ -68,14 +63,14 @@ function Home() {
       {/* Iconic Essentials */}
       <section className="section section--deep">
         <div className="container">
-          <h2 className="section__title--center">Iconic <em>Essentials</em></h2>
+          <h2 className="section__title--center">{t('home.essentials_title_1')} <em>{t('home.essentials_title_2')}</em></h2>
           <div className="section__divider" />
           <div className="products">
             {ESSENTIALS.map(({ name, slug, material, price, img }) => (
               <Link to={`/product/${slug}`} className="product-card" key={name}>
                 <div className="product-card__img-wrap">
                   <img className="product-card__img" src={img} alt={name} />
-                  <button className="product-card__cart" aria-label="Add to cart" onClick={e => { e.preventDefault(); e.stopPropagation(); }}>
+                  <button className="product-card__cart" aria-label={t('home.add_to_cart')} onClick={e => { e.preventDefault(); e.stopPropagation(); }}>
                     <span className="material-symbols-outlined">add_shopping_cart</span>
                   </button>
                 </div>
@@ -102,23 +97,20 @@ function Home() {
               <div className="custom__corner corner--bottom" />
             </div>
             <div className="custom__content">
-              <span className="label">Crafted For You</span>
+              <span className="label">{t('home.custom_label')}</span>
               <h2 className="section__title">
-                The Art of<br /><em>Customization</em>
+                {t('home.custom_title_1')}<br /><em>{t('home.custom_title_2')}</em>
               </h2>
-              <p className="custom__text">
-                Experience bespoke leather goods crafted by skilled artisans. From monogramming to full custom designs,
-                we bring your vision to life with precision and craftsmanship.
-              </p>
+              <p className="custom__text">{t('home.custom_text')}</p>
               <div className="steps">
-                {STEPS.map(({ num, text }) => (
-                  <div className="step" key={num}>
-                    <div className="step__number">{num}</div>
-                    <span className="step__text">{text}</span>
+                {STEP_KEYS.map((key, i) => (
+                  <div className="step" key={i}>
+                    <div className="step__number">{String(i + 1).padStart(2, '0')}</div>
+                    <span className="step__text">{t(key)}</span>
                   </div>
                 ))}
               </div>
-              <Link to="/customize/the-bespoke-messenger" className="btn btn--solid">Begin Your Design</Link>
+              <Link to="/customize/the-bespoke-messenger" className="btn btn--solid">{t('home.custom_cta')}</Link>
             </div>
           </div>
         </div>
@@ -127,10 +119,8 @@ function Home() {
       {/* Editorial Quote */}
       <section className="quote section--elevated">
         <span className="material-symbols-outlined quote__icon">format_quote</span>
-        <blockquote className="quote__text">
-          "Luxury is not about consumption. It is about the preservation of craft and the story of the maker."
-        </blockquote>
-        <p className="quote__author">Tahir &amp; Sheila — Founder &amp; CEO</p>
+        <blockquote className="quote__text">{t('home.quote_text')}</blockquote>
+        <p className="quote__author">{t('home.quote_author')}</p>
       </section>
     </main>
   );

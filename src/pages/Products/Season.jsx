@@ -1,7 +1,9 @@
 import { Link } from 'react-router-dom';
 import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion';
 import { useRef, useMemo, useState } from 'react';
-import { PRODUCTS, StarRating } from './Products';
+import { useTranslation } from 'react-i18next';
+import { PRODUCTS } from '../../data/products';
+import { StarRating } from './Products';
 import './Season.css';
 
 const SEASON_ORDER = ['winter', 'spring', 'summer', 'autumn'];
@@ -290,6 +292,7 @@ function SeasonEffects({ effect }) {
 }
 
 function SeasonNav({ current }) {
+  const { t } = useTranslation();
   const idx = SEASON_ORDER.indexOf(current);
   const prev = idx > 0 ? SEASON_ORDER[idx - 1] : null;
   const next = idx < SEASON_ORDER.length - 1 ? SEASON_ORDER[idx + 1] : null;
@@ -298,7 +301,7 @@ function SeasonNav({ current }) {
       {prev ? (
         <Link to={`/collection/${prev}`} className="season-nav__link season-nav__link--prev">
           <span className="material-symbols-outlined">arrow_back</span>
-          <span>{SEASON_DATA[prev].title}</span>
+          <span>{t('season.' + prev + '.title')}</span>
         </Link>
       ) : <span />}
       <div className="season-nav__dots">
@@ -307,13 +310,13 @@ function SeasonNav({ current }) {
             key={s}
             to={`/collection/${s}`}
             className={`season-nav__dot ${s === current ? 'active' : ''}`}
-            aria-label={SEASON_DATA[s].title}
+            aria-label={t('season.' + s + '.title')}
           />
         ))}
       </div>
       {next ? (
         <Link to={`/collection/${next}`} className="season-nav__link season-nav__link--next">
-          <span>{SEASON_DATA[next].title}</span>
+          <span>{t('season.' + next + '.title')}</span>
           <span className="material-symbols-outlined">arrow_forward</span>
         </Link>
       ) : <span />}
@@ -322,7 +325,12 @@ function SeasonNav({ current }) {
 }
 
 function Season({ seasonKey }) {
+  const { t } = useTranslation();
   const data = SEASON_DATA[seasonKey];
+  const title = t('season.' + seasonKey + '.title');
+  const subtitle = t('season.' + seasonKey + '.subtitle');
+  const desc = t('season.' + seasonKey + '.desc');
+  const quote = t('season.' + seasonKey + '.quote');
   const allProducts = useMemo(() => PRODUCTS.filter(p => p.season === seasonKey), [seasonKey]);
   const heroRef = useRef(null);
   const { scrollYProgress } = useScroll({ target: heroRef, offset: ['start start', 'end start'] });
@@ -354,7 +362,7 @@ function Season({ seasonKey }) {
       {/* parallax */}
       <section className="season-hero" ref={heroRef}>
         <motion.div className="season-hero__bg" style={{ y: heroY }}>
-          <img src={data.hero} alt={`${data.title} Collection`} />
+          <img src={data.hero} alt={`${title} Collection`} />
         </motion.div>
         <div className="season-hero__overlay" />
         <SeasonEffects effect={data.effect} />
@@ -373,37 +381,22 @@ function Season({ seasonKey }) {
           >
             {data.icon}
           </motion.span>
-          <motion.span
-            className="label"
-            initial={{ opacity: 0, letterSpacing: '0.6em' }}
-            animate={{ opacity: 1, letterSpacing: '0.3em' }}
-            transition={{ duration: 0.8, delay: 0.3 }}
-          >
-            {data.title} Collection
+          <motion.span className="label" initial={{ opacity: 0, letterSpacing: '0.6em' }} animate={{ opacity: 1, letterSpacing: '0.3em' }} transition={{ duration: 0.8, delay: 0.3 }}>
+            {t('season.collection_label', { title })}
           </motion.span>
-          <motion.h1
-            className="season-hero__title"
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
-          >
-            {data.subtitle.split(' ').slice(0, -1).join(' ')}{' '}
-            <em>{data.subtitle.split(' ').slice(-1)}</em>
+          <motion.h1 className="season-hero__title" initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}>
+            {subtitle.split(' ').slice(0, -1).join(' ')}{' '}
+            <em>{subtitle.split(' ').slice(-1)}</em>
           </motion.h1>
-          <motion.p
-            className="season-hero__desc"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 0.75 }}
-            transition={{ duration: 0.8, delay: 0.6 }}
-          >
-            {data.desc}
+          <motion.p className="season-hero__desc" initial={{ opacity: 0 }} animate={{ opacity: 0.75 }} transition={{ duration: 0.8, delay: 0.6 }}>
+            {desc}
           </motion.p>
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.8 }}
           >
-            <Link to="/products" className="btn btn--gradient">View All Products</Link>
+            <Link to="/products" className="btn btn--gradient">{t('season.view_all')}</Link>
           </motion.div>
         </motion.div>
       </section>
@@ -412,14 +405,8 @@ function Season({ seasonKey }) {
 
       <section className="section section--dark">
         <div className="container">
-          <motion.h2
-            className="section__title--center"
-            variants={fadeUp}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: '-80px' }}
-          >
-            {data.title} <em>Essentials</em>
+          <motion.h2 className="section__title--center" variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true, margin: '-80px' }}>
+            {title} <em>Essentials</em>
           </motion.h2>
           <motion.div
             className="section__divider"
@@ -477,8 +464,8 @@ function Season({ seasonKey }) {
                     <img className="product-card__img" src={p.img} alt={p.name} loading="lazy" />
                     <span className="product-card__badge">{p.cat}</span>
                     {p.discount > 0 && <span className="product-card__discount">-{p.discount}%</span>}
-                    {p.isFeatured && <span className="product-card__featured">Best Seller</span>}
-                    <button className="product-card__cart" aria-label="Add to cart" onClick={e => { e.preventDefault(); e.stopPropagation(); }}>
+                    {p.isFeatured && <span className="product-card__featured">{t('season.best_seller')}</span>}
+                    <button className="product-card__cart" aria-label={t('season.add_to_cart')} onClick={e => { e.preventDefault(); e.stopPropagation(); }}>
                       <span className="material-symbols-outlined">add_shopping_cart</span>
                     </button>
                   </div>
@@ -495,7 +482,7 @@ function Season({ seasonKey }) {
                   </div>
                   <div className="product-card__foot">
                     <span className={`stock ${p.stock === 0 ? 'stock--out' : p.stock <= 5 ? 'stock--low' : 'stock--in'}`}>
-                      {p.stock === 0 ? 'Out of Stock' : p.stock <= 5 ? `Only ${p.stock} left` : 'In Stock'}
+                      {p.stock === 0 ? t('season.out_of_stock') : p.stock <= 5 ? t('season.only_left', { count: p.stock }) : t('season.in_stock')}
                     </span>
                   </div>
                 </Link>
@@ -521,14 +508,8 @@ function Season({ seasonKey }) {
         >
           {data.icon}
         </motion.span>
-        <motion.blockquote
-          className="quote__text"
-          variants={fadeUp}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-        >
-          {data.quote}
+        <motion.blockquote className="quote__text" variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true }}>
+          {quote}
         </motion.blockquote>
       </motion.section>
     </main>

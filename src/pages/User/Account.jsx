@@ -1,7 +1,9 @@
 import { useState, useEffect, useMemo } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { useAuth } from '../components/AuthContext';
-import { PRODUCTS, StarRating } from './Products';
+import { useAuth } from '../../components/AuthContext';
+import { useSelector } from 'react-redux';
+import { useTranslation } from 'react-i18next';
+import { StarRating } from '../Products/Products';
 import './Account.css';
 
 const TABS = [
@@ -41,7 +43,12 @@ function formatCurrency(n) {
 }
 
 function Account() {
-  const { user, isAuthenticated, logout, updateProfile, orders, addresses, addAddress, removeAddress, wishlist, toggleWishlist } = useAuth();
+  const { logout, updateProfile, addresses, addAddress, removeAddress, wishlist, toggleWishlist } = useAuth();
+  const { t } = useTranslation();
+  const user = useSelector((s) => s.user.user);
+  const isAuthenticated = useSelector((s) => !!s.user.user);
+  const orders = useSelector((s) => s.orders.list);
+  const products = useSelector((s) => s.products.list);
   const navigate = useNavigate();
   const location = useLocation();
   const initialTab = new URLSearchParams(location.search).get('tab') || 'overview';
@@ -57,8 +64,8 @@ function Account() {
   const [addrForm, setAddrForm] = useState({ type: 'shipping', firstName: '', lastName: '', phone: '', addressLine1: '', addressLine2: '', city: '', postalCode: '', country: 'France', isDefault: false });
 
   const wishlistProducts = useMemo(
-    () => wishlist.map(slug => PRODUCTS.find(p => p.slug === slug)).filter(Boolean),
-    [wishlist]
+    () => wishlist.map(slug => products.find(p => p.slug === slug)).filter(Boolean),
+    [wishlist, products]
   );
 
   if (!isAuthenticated) {
@@ -98,22 +105,22 @@ function Account() {
             </div>
             <h3 className="acct__user-name">{user.firstName} {user.lastName}</h3>
             <span className="acct__user-email">{user.email}</span>
-            <span className="acct__member-since">Member since {formatDate(user.createdAt)}</span>
+            <span className="acct__member-since">{t('account.member_since', { date: formatDate(user.createdAt) })}</span>
           </div>
           <nav className="acct__nav">
-            {TABS.map(t => (
+            {TABS.map(tabItem => (
               <button
-                key={t.key}
-                className={`acct__nav-item ${tab === t.key ? 'active' : ''}`}
-                onClick={() => setTab(t.key)}
+                key={tabItem.key}
+                className={`acct__nav-item ${tab === tabItem.key ? 'active' : ''}`}
+                onClick={() => setTab(tabItem.key)}
               >
-                <span className={`material-symbols-outlined${tab === t.key ? ' icon--filled' : ''}`}>{t.icon}</span>
-                {t.label}
+                <span className={`material-symbols-outlined${tab === tabItem.key ? ' icon--filled' : ''}`}>{tabItem.icon}</span>
+                {t('account.tab_' + tabItem.key)}
               </button>
             ))}
             <button className="acct__nav-item acct__nav-item--logout" onClick={handleLogout}>
               <span className="material-symbols-outlined">logout</span>
-              Sign Out
+              {t('account.sign_out')}
             </button>
           </nav>
         </aside>
@@ -123,7 +130,7 @@ function Account() {
           {tab === 'overview' && (
             <div className="acct__tab">
               <h2 className="acct__tab-title">
-                Welcome back, {user.firstName}
+                {t('account.welcome_back', { name: user.firstName })}
                 <span className="material-symbols-outlined">waving_hand</span>
               </h2>
 
@@ -132,34 +139,34 @@ function Account() {
                   <span className="material-symbols-outlined">receipt_long</span>
                   <div>
                     <span className="acct__stat-num">{orders.length}</span>
-                    <span className="acct__stat-label">Orders</span>
+                    <span className="acct__stat-label">{t('account.stat_orders')}</span>
                   </div>
                 </div>
                 <div className="acct__stat-card">
                   <span className="material-symbols-outlined">favorite</span>
                   <div>
                     <span className="acct__stat-num">{wishlist.length}</span>
-                    <span className="acct__stat-label">Wishlist</span>
+                    <span className="acct__stat-label">{t('account.stat_wishlist')}</span>
                   </div>
                 </div>
                 <div className="acct__stat-card">
                   <span className="material-symbols-outlined">location_on</span>
                   <div>
                     <span className="acct__stat-num">{addresses.length}</span>
-                    <span className="acct__stat-label">Addresses</span>
+                    <span className="acct__stat-label">{t('account.stat_addresses')}</span>
                   </div>
                 </div>
                 <div className="acct__stat-card">
                   <span className="material-symbols-outlined">payments</span>
                   <div>
                     <span className="acct__stat-num">{formatCurrency(orders.filter(o => o.status !== 'cancelled').reduce((s, o) => s + o.totalAmount, 0))}</span>
-                    <span className="acct__stat-label">Total Spent</span>
+                    <span className="acct__stat-label">{t('account.stat_total_spent')}</span>
                   </div>
                 </div>
               </div>
 
               {/* Recent orders */}
-              <h3 className="acct__section-title">Recent Orders</h3>
+              <h3 className="acct__section-title">{t('account.recent_orders')}</h3>
               <div className="acct__orders-list">
                 {orders.slice(0, 3).map(order => (
                   <Link key={order.id} to={`/order/${order.orderNumber}`} className="acct__order-card">
@@ -189,12 +196,12 @@ function Account() {
           {/* ── Orders ── */}
           {tab === 'orders' && (
             <div className="acct__tab">
-              <h2 className="acct__tab-title">Order History</h2>
+              <h2 className="acct__tab-title">{t('account.order_history')}</h2>
               {orders.length === 0 ? (
                 <div className="acct__empty">
                   <span className="material-symbols-outlined">receipt_long</span>
-                  <p>No orders yet.</p>
-                  <Link to="/products" className="btn btn--solid">Start Shopping</Link>
+                  <p>{t('account.no_orders')}</p>
+                  <Link to="/products" className="btn btn--solid">{t('account.start_shopping')}</Link>
                 </div>
               ) : (
                 <div className="acct__orders-full">
@@ -204,7 +211,7 @@ function Account() {
                         <div className="acct__order-row-left">
                           <span className="acct__order-num">{order.orderNumber}</span>
                           <span className="acct__order-date">{formatDate(order.orderedAt)}</span>
-                          <span className="acct__order-item-count">{order.items.length} item{order.items.length > 1 ? 's' : ''}</span>
+                          <span className="acct__order-item-count">{t('account.items', { count: order.items.length })}</span>
                         </div>
                         <div className="acct__order-row-items">
                           {order.items.map(item => (
@@ -242,36 +249,36 @@ function Account() {
           {tab === 'addresses' && (
             <div className="acct__tab">
               <div className="acct__tab-header">
-                <h2 className="acct__tab-title">My Addresses</h2>
+                <h2 className="acct__tab-title">{t('account.my_addresses')}</h2>
                 <button className="btn btn--solid btn--sm cust__nav-btn" onClick={() => setAddingAddr(true)}>
-                  <span className="material-symbols-outlined">add</span> Add Address
+                  <span className="material-symbols-outlined">add</span> {t('account.add_address')}
                 </button>
               </div>
 
               {addingAddr && (
                 <form className="acct__addr-form" onSubmit={handleAddAddress}>
-                  <h3>New Address</h3>
+                  <h3>{t('account.new_address')}</h3>
                   <div className="acct__addr-grid">
                     <select value={addrForm.type} onChange={e => setAddrForm(f => ({ ...f, type: e.target.value }))}>
-                      <option value="shipping">Shipping</option>
-                      <option value="billing">Billing</option>
+                      <option value="shipping">{t('account.addr_type_shipping')}</option>
+                      <option value="billing">{t('account.addr_type_billing')}</option>
                     </select>
-                    <input placeholder="First Name *" required value={addrForm.firstName} onChange={e => setAddrForm(f => ({ ...f, firstName: e.target.value }))} />
-                    <input placeholder="Last Name *" required value={addrForm.lastName} onChange={e => setAddrForm(f => ({ ...f, lastName: e.target.value }))} />
-                    <input placeholder="Phone" value={addrForm.phone} onChange={e => setAddrForm(f => ({ ...f, phone: e.target.value }))} />
-                    <input placeholder="Address Line 1 *" required className="acct__addr-full" value={addrForm.addressLine1} onChange={e => setAddrForm(f => ({ ...f, addressLine1: e.target.value }))} />
-                    <input placeholder="Address Line 2" className="acct__addr-full" value={addrForm.addressLine2} onChange={e => setAddrForm(f => ({ ...f, addressLine2: e.target.value }))} />
-                    <input placeholder="City *" required value={addrForm.city} onChange={e => setAddrForm(f => ({ ...f, city: e.target.value }))} />
-                    <input placeholder="Postal Code *" required value={addrForm.postalCode} onChange={e => setAddrForm(f => ({ ...f, postalCode: e.target.value }))} />
-                    <input placeholder="Country" value={addrForm.country} onChange={e => setAddrForm(f => ({ ...f, country: e.target.value }))} />
+                    <input placeholder={t('account.addr_first_name') + ' *'} required value={addrForm.firstName} onChange={e => setAddrForm(f => ({ ...f, firstName: e.target.value }))} />
+                    <input placeholder={t('account.addr_last_name') + ' *'} required value={addrForm.lastName} onChange={e => setAddrForm(f => ({ ...f, lastName: e.target.value }))} />
+                    <input placeholder={t('account.addr_phone')} value={addrForm.phone} onChange={e => setAddrForm(f => ({ ...f, phone: e.target.value }))} />
+                    <input placeholder={t('account.addr_line1') + ' *'} required className="acct__addr-full" value={addrForm.addressLine1} onChange={e => setAddrForm(f => ({ ...f, addressLine1: e.target.value }))} />
+                    <input placeholder={t('account.addr_line2')} className="acct__addr-full" value={addrForm.addressLine2} onChange={e => setAddrForm(f => ({ ...f, addressLine2: e.target.value }))} />
+                    <input placeholder={t('account.addr_city') + ' *'} required value={addrForm.city} onChange={e => setAddrForm(f => ({ ...f, city: e.target.value }))} />
+                    <input placeholder={t('account.addr_postal') + ' *'} required value={addrForm.postalCode} onChange={e => setAddrForm(f => ({ ...f, postalCode: e.target.value }))} />
+                    <input placeholder={t('account.addr_country')} value={addrForm.country} onChange={e => setAddrForm(f => ({ ...f, country: e.target.value }))} />
                     <label className="acct__addr-default">
                       <input type="checkbox" checked={addrForm.isDefault} onChange={e => setAddrForm(f => ({ ...f, isDefault: e.target.checked }))} />
-                      Set as default
+                      {t('account.addr_set_default')}
                     </label>
                   </div>
                   <div className="acct__addr-actions">
-                    <button type="submit" className="btn btn--gradient btn--sm">Save</button>
-                    <button type="button" className="btn btn--solid btn--sm" onClick={() => setAddingAddr(false)}>Cancel</button>
+                    <button type="submit" className="btn btn--gradient btn--sm">{t('account.save')}</button>
+                    <button type="button" className="btn btn--solid btn--sm" onClick={() => setAddingAddr(false)}>{t('account.cancel')}</button>
                   </div>
                 </form>
               )}
@@ -282,7 +289,7 @@ function Account() {
                     <div className="acct__addr-type">
                       <span className="material-symbols-outlined">{addr.type === 'shipping' ? 'local_shipping' : 'receipt'}</span>
                       {addr.type}
-                      {addr.isDefault && <span className="acct__addr-badge">Default</span>}
+                      {addr.isDefault && <span className="acct__addr-badge">{t('account.addr_default_badge')}</span>}
                     </div>
                     <p className="acct__addr-name">{addr.firstName} {addr.lastName}</p>
                     <p className="acct__addr-line">{addr.addressLine1}</p>
@@ -301,12 +308,12 @@ function Account() {
           {/* ── Wishlist ── */}
           {tab === 'wishlist' && (
             <div className="acct__tab">
-              <h2 className="acct__tab-title">My Wishlist</h2>
+              <h2 className="acct__tab-title">{t('account.my_wishlist')}</h2>
               {wishlistProducts.length === 0 ? (
                 <div className="acct__empty">
                   <span className="material-symbols-outlined">favorite_border</span>
-                  <p>Your wishlist is empty.</p>
-                  <Link to="/products" className="btn btn--solid">Discover Products</Link>
+                  <p>{t('account.empty_wishlist')}</p>
+                  <Link to="/products" className="btn btn--solid">{t('account.discover_products')}</Link>
                 </div>
               ) : (
                 <div className="acct__wishlist-grid">
@@ -339,62 +346,62 @@ function Account() {
           {/* ── Profile ── */}
           {tab === 'profile' && (
             <div className="acct__tab">
-              <h2 className="acct__tab-title">Personal Information</h2>
+              <h2 className="acct__tab-title">{t('account.personal_info')}</h2>
               {editMode ? (
                 <form className="acct__profile-form" onSubmit={saveProfile}>
                   <div className="auth__row">
                     <div className="auth__field">
-                      <label>First Name</label>
+                      <label>{t('account.field_first_name')}</label>
                       <div className="auth__input-wrap">
                         <input value={profileForm.firstName} onChange={e => setProfileForm(f => ({ ...f, firstName: e.target.value }))} />
                       </div>
                     </div>
                     <div className="auth__field">
-                      <label>Last Name</label>
+                      <label>{t('account.field_last_name')}</label>
                       <div className="auth__input-wrap">
                         <input value={profileForm.lastName} onChange={e => setProfileForm(f => ({ ...f, lastName: e.target.value }))} />
                       </div>
                     </div>
                   </div>
                   <div className="auth__field">
-                    <label>Phone</label>
+                    <label>{t('account.field_phone')}</label>
                     <div className="auth__input-wrap">
                       <input value={profileForm.phone} onChange={e => setProfileForm(f => ({ ...f, phone: e.target.value }))} />
                     </div>
                   </div>
                   <div className="acct__profile-actions">
-                    <button type="submit" className="btn btn--gradient btn--sm">Save Changes</button>
-                    <button type="button" className="btn btn--solid btn--sm" onClick={() => setEditMode(false)}>Cancel</button>
+                    <button type="submit" className="btn btn--gradient btn--sm">{t('account.save_changes')}</button>
+                    <button type="button" className="btn btn--solid btn--sm" onClick={() => setEditMode(false)}>{t('account.cancel')}</button>
                   </div>
                 </form>
               ) : (
                 <div className="acct__profile-info">
                   <div className="acct__profile-row">
-                    <span className="acct__profile-label">First Name</span>
+                    <span className="acct__profile-label">{t('account.field_first_name')}</span>
                     <span className="acct__profile-val">{user.firstName}</span>
                   </div>
                   <div className="acct__profile-row">
-                    <span className="acct__profile-label">Last Name</span>
+                    <span className="acct__profile-label">{t('account.field_last_name')}</span>
                     <span className="acct__profile-val">{user.lastName}</span>
                   </div>
                   <div className="acct__profile-row">
-                    <span className="acct__profile-label">Email</span>
+                    <span className="acct__profile-label">{t('account.field_email')}</span>
                     <span className="acct__profile-val">{user.email}</span>
                   </div>
                   <div className="acct__profile-row">
-                    <span className="acct__profile-label">Phone</span>
+                    <span className="acct__profile-label">{t('account.field_phone')}</span>
                     <span className="acct__profile-val">{user.phone || '—'}</span>
                   </div>
                   <div className="acct__profile-row">
-                    <span className="acct__profile-label">Role</span>
+                    <span className="acct__profile-label">{t('account.field_role')}</span>
                     <span className="acct__profile-val" style={{ textTransform: 'capitalize' }}>{user.role}</span>
                   </div>
                   <div className="acct__profile-row">
-                    <span className="acct__profile-label">Last Login</span>
+                    <span className="acct__profile-label">{t('account.field_last_login')}</span>
                     <span className="acct__profile-val">{formatDate(user.lastLoginAt)}</span>
                   </div>
                   <button className="btn btn--solid btn--sm pd__add-cart" onClick={startEditProfile}>
-                    <span className="material-symbols-outlined">edit</span> Edit Profile
+                    <span className="material-symbols-outlined">edit</span> {t('account.edit_profile')}
                   </button>
                 </div>
               )}
