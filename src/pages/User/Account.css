@@ -435,6 +435,12 @@
 }
 .btn--sm .material-symbols-outlined { font-size: 1rem; }
 
+.btn.cust__nav-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
 /* ── Responsive ── */
 @media (max-width: 900px) {
   .acct__layout {

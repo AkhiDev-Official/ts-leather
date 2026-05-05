@@ -17,7 +17,16 @@
     "winter": "Winter",
     "spring": "Spring",
     "summer": "Summer",
-    "autumn": "Autumn"
+    "autumn": "Autumn",
+    "shop": "Shop",
+    "account": "Account",
+    "dashboard": "Dashboard",
+    "orders": "Orders",
+    "products": "Products",
+    "customers": "Customers",
+    "reviews": "Reviews",
+    "discounts": "Discounts",
+    "settings": "Settings"
   },
   "footer": {
     "privacy": "Privacy",

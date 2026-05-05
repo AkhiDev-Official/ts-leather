@@ -1,5 +1,5 @@
 import { useState, useEffect, useMemo, useCallback } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../../components/AuthContext';
 import { PRODUCTS } from '../../data/products';
 import './Admin.css';
@@ -1110,7 +1110,15 @@ const TABS = [
 function Admin() {
   const { isAdmin, user, logout } = useAuth();
   const navigate = useNavigate();
-  const [activeTab, setActiveTab] = useState('dashboard');
+  const location = useLocation();
+  const initialTab = new URLSearchParams(location.search).get('tab') || 'dashboard';
+  const [activeTab, setActiveTab] = useState(initialTab);
+
+  useEffect(() => {
+    const param = new URLSearchParams(location.search).get('tab');
+    if (param && TABS.some(t => t.id === param)) setActiveTab(param);
+  }, [location.search]);
+
   const [orders, setOrders] = useState(MOCK_ORDERS);
   const [toasts, setToasts] = useState([]);
   const [orderFilter, setOrderFilter] = useState(null);

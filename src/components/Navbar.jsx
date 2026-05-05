@@ -4,6 +4,7 @@ import { useAuth } from "./AuthContext";
 import "./Navbar.css";
 import { useTranslation } from "react-i18next";
 import { useSelector } from "react-redux";
+import "flag-icons/css/flag-icons.min.css";
 
 const NAV_LINKS = [
   { label: "Men", cat: "men" },
@@ -27,6 +28,7 @@ function Navbar() {
   const [collectionsOpen, setCollectionsOpen] = useState(false);
   const [accountOpen, setAccountOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(() => window.matchMedia(MQ).matches);
+  const [mobileTab, setMobileTab] = useState("shop"); // "shop" | "account"
   const { isAuthenticated, isAdmin, user, logout } = useAuth();
   const location = useLocation();
   const navigate = useNavigate();
@@ -113,148 +115,168 @@ function Navbar() {
         </Link>
 
         <div className={`navbar__links${menuOpen ? " open" : ""}`}>
-          {/* Collections */}
-          <div className="navbar__dropdown" {...hoverOpen(setCollectionsOpen)}>
-            <button
-              className={`navbar__dropdown-trigger${currentSeason ? " active" : ""}${collectionsOpen ? " expanded" : ""}`}
-              onClick={() => setCollectionsOpen((o) => !o)}
-              aria-expanded={collectionsOpen}
-            >
-              {t("nav.collections")}
-              <span className="material-symbols-outlined navbar__dropdown-arrow">
-                expand_more
-              </span>
-            </button>
-            <div
-              className={`navbar__dropdown-menu${collectionsOpen ? " open" : ""}`}
-            >
-              {SEASON_LINKS.map(({ slug, icon }) => (
-                <Link
-                  key={slug}
-                  to={`/collection/${slug}`}
-                  className={`navbar__dropdown-item${currentSeason === slug ? " active" : ""}`}
-                >
-                  <span className="material-symbols-outlined navbar__dropdown-icon">
-                    {icon}
-                  </span>
-                  {t("nav." + slug)}
-                </Link>
-              ))}
-            </div>
-          </div>
-
-          {NAV_LINKS.map(({ cat }) => (
-            <a
-              key={cat}
-              href={`/products?cat=${cat}`}
-              className={currentCat === cat ? "active" : ""}
-              onClick={(e) => {
-                e.preventDefault();
-                handleCatClick(cat);
-              }}
-            >
-              {t("nav." + cat)}
-            </a>
-          ))}
-
-          {/* Account */}
-          {isMobile && isAuthenticated && (
-            <div className="navbar__mobile-account">
-              <div className="navbar__mobile-account-header">
-                <span className="material-symbols-outlined icon--filled">
-                  person
-                </span>
-                <span>
-                  {user.firstName} {user.lastName}
-                </span>
-              </div>
-              {!isAdmin && (
-                <>
-                  <Link
-                    to="/account?tab=overview"
-                    className="navbar__mobile-account-link"
-                    onClick={() => setMenuOpen(false)}
-                  >
-                    <span className="material-symbols-outlined">dashboard</span>{" "}
-                    Overview
-                  </Link>
-                  <Link
-                    to="/account?tab=orders"
-                    className="navbar__mobile-account-link"
-                    onClick={() => setMenuOpen(false)}
-                  >
-                    <span className="material-symbols-outlined">
-                      receipt_long
-                    </span>{" "}
-                    My Orders
-                  </Link>
-                  <Link
-                    to="/account?tab=wishlist"
-                    className="navbar__mobile-account-link"
-                    onClick={() => setMenuOpen(false)}
-                  >
-                    <span className="material-symbols-outlined">favorite</span>{" "}
-                    Wishlist
-                  </Link>
-                  <Link
-                    to="/account?tab=addresses"
-                    className="navbar__mobile-account-link"
-                    onClick={() => setMenuOpen(false)}
-                  >
-                    <span className="material-symbols-outlined">
-                      location_on
-                    </span>{" "}
-                    Addresses
-                  </Link>
-                  <Link
-                    to="/account?tab=profile"
-                    className="navbar__mobile-account-link"
-                    onClick={() => setMenuOpen(false)}
-                  >
-                    <span className="material-symbols-outlined">person</span>{" "}
-                    Profile
-                  </Link>
-                </>
-              )}
-              {isAdmin && (
-                <Link
-                  to="/admin"
-                  className="navbar__mobile-account-link navbar__mobile-account-link--admin"
-                  onClick={() => setMenuOpen(false)}
-                >
-                  <span className="material-symbols-outlined">
-                    admin_panel_settings
-                  </span>{" "}
-                  {t("nav.admin_panel")}
-                </Link>
-              )}
+          {/* Tab switcher — only on mobile */}
+          {isMobile && (
+            <div className="navbar__tabs">
               <button
-                className="navbar__mobile-account-link navbar__mobile-account-link--logout"
-                onClick={() => {
-                  setMenuOpen(false);
-                  handleLogout();
-                }}
+                className={`navbar__tab${mobileTab === "shop" ? " active" : ""}`}
+                onClick={() => setMobileTab("shop")}
               >
-                <span className="material-symbols-outlined">logout</span>{" "}
-                {t("nav.sign_out")}
+                <span className="material-symbols-outlined">storefront</span>
+                {t("nav.shop") /* or just "Shop" */}
+              </button>
+              <button
+                className={`navbar__tab${mobileTab === "account" ? " active" : ""}`}
+                onClick={() => setMobileTab("account")}
+              >
+                <span className="material-symbols-outlined icon--filled">
+                  {isAdmin ? "admin_panel_settings" : "person"}
+                </span>
+                {isAdmin ? t("nav.admin_panel") : t("nav.account") /* or "Account" */}
               </button>
             </div>
           )}
-          {isMobile && !isAuthenticated && (
+
+          {/* SHOP TAB CONTENT */}
+          {(!isMobile || mobileTab === "shop") && (
+            <>
+              {/* Collections dropdown */}
+              <div className="navbar__dropdown" {...hoverOpen(setCollectionsOpen)}>
+                <button
+                  className={`navbar__dropdown-trigger${currentSeason ? " active" : ""}${collectionsOpen ? " expanded" : ""}`}
+                  onClick={() => setCollectionsOpen((o) => !o)}
+                  aria-expanded={collectionsOpen}
+                >
+                  {t("nav.collections")}
+                  <span className="material-symbols-outlined navbar__dropdown-arrow">
+                    expand_more
+                  </span>
+                </button>
+                <div
+                  className={`navbar__dropdown-menu${collectionsOpen ? " open" : ""}`}
+                >
+                  {SEASON_LINKS.map(({ slug, icon }) => (
+                    <Link
+                      key={slug}
+                      to={`/collection/${slug}`}
+                      className={`navbar__dropdown-item${currentSeason === slug ? " active" : ""}`}
+                    >
+                      <span className="material-symbols-outlined navbar__dropdown-icon">
+                        {icon}
+                      </span>
+                      {t("nav." + slug)}
+                    </Link>
+                  ))}
+                </div>
+              </div>
+
+              {/* Nav links */}
+              {NAV_LINKS.map(({ cat }) => (
+                <a
+                  key={cat}
+                  href={`/products?cat=${cat}`}
+                  className={currentCat === cat ? "active" : ""}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    handleCatClick(cat);
+                  }}
+                >
+                  {t("nav." + cat)}
+                </a>
+              ))}
+            </>
+          )}
+
+          {/* ACCOUNT TAB CONTENT (mobile only) */}
+          {isMobile && mobileTab === "account" && (
             <div className="navbar__mobile-account">
-              <Link
-                to="/login"
-                className="navbar__mobile-account-link navbar__mobile-account-link--login"
-                onClick={() => setMenuOpen(false)}
-              >
-                <span className="material-symbols-outlined">login</span>{" "}
-                {t("nav.sign_in")}
-              </Link>
+              {isAuthenticated ? (
+                <>
+                  {/* <div className="navbar__mobile-account-header">
+                    <span className="material-symbols-outlined icon--filled">person</span>
+                    <span>{user.firstName} {user.lastName}</span>
+                  </div> */}
+
+                  {/* Regular user links */}
+                  {!isAdmin && (
+                    <>
+                      <Link to="/account?tab=overview" className="navbar__mobile-account-link" onClick={() => setMenuOpen(false)}>
+                        <span className="material-symbols-outlined">dashboard</span>
+                        {t("nav.overview")}
+                      </Link>
+                      <Link to="/account?tab=orders" className="navbar__mobile-account-link" onClick={() => setMenuOpen(false)}>
+                        <span className="material-symbols-outlined">receipt_long</span>
+                        {t("nav.my_orders")}
+                      </Link>
+                      <Link to="/account?tab=wishlist" className="navbar__mobile-account-link" onClick={() => setMenuOpen(false)}>
+                        <span className="material-symbols-outlined">favorite</span>
+                        {t("nav.wishlist")}
+                      </Link>
+                      <Link to="/account?tab=addresses" className="navbar__mobile-account-link" onClick={() => setMenuOpen(false)}>
+                        <span className="material-symbols-outlined">location_on</span>
+                        {t("nav.addresses")}
+                      </Link>
+                      <Link to="/account?tab=profile" className="navbar__mobile-account-link" onClick={() => setMenuOpen(false)}>
+                        <span className="material-symbols-outlined">person</span>
+                        {t("nav.profile")}
+                      </Link>
+                    </>
+                  )}
+
+                  {/* Admin links */}
+                  {isAdmin && (
+                    <>
+                      <Link to="/admin?tab=dashboard" className="navbar__mobile-account-link navbar__mobile-account-link--admin" onClick={() => setMenuOpen(false)}>
+                        <span className="material-symbols-outlined">dashboard</span>
+                        {t("nav.dashboard")}
+                      </Link>
+                      <Link to="/admin?tab=orders" className="navbar__mobile-account-link navbar__mobile-account-link--admin" onClick={() => setMenuOpen(false)}>
+                        <span className="material-symbols-outlined">orders</span>
+                        {t("nav.orders")}
+                      </Link>
+                      <Link to="/admin?tab=products" className="navbar__mobile-account-link navbar__mobile-account-link--admin" onClick={() => setMenuOpen(false)}>
+                        <span className="material-symbols-outlined">inventory_2</span>
+                        {t("nav.products")}
+                      </Link>
+                      <Link to="/admin?tab=customers" className="navbar__mobile-account-link navbar__mobile-account-link--admin" onClick={() => setMenuOpen(false)}>
+                        <span className="material-symbols-outlined">people</span>
+                        {t("nav.customers")}
+                      </Link>
+                      <Link to="/admin?tab=reviews" className="navbar__mobile-account-link navbar__mobile-account-link--admin" onClick={() => setMenuOpen(false)}>
+                        <span className="material-symbols-outlined">reviews</span>
+                        {t("nav.reviews")}
+                      </Link>
+                      <Link to="/admin?tab=discounts" className="navbar__mobile-account-link navbar__mobile-account-link--admin" onClick={() => setMenuOpen(false)}>
+                        <span className="material-symbols-outlined">local_offer</span>
+                        {t("nav.discounts")}
+                      </Link>
+                      <Link to="/admin?tab=settings" className="navbar__mobile-account-link navbar__mobile-account-link--admin" onClick={() => setMenuOpen(false)}>
+                        <span className="material-symbols-outlined">settings</span>
+                        {t("nav.settings")}
+                      </Link>
+                    </>
+                  )}
+
+                  <button className="navbar__mobile-account-link navbar__mobile-account-link--logout" onClick={() => { setMenuOpen(false); handleLogout(); }}>
+                    <span className="material-symbols-outlined">logout</span>
+                    {t("nav.sign_out")}
+                  </button>
+                </>
+              ) : (
+                <Link to="/login" className="navbar__mobile-account-link navbar__mobile-account-link--login" onClick={() => setMenuOpen(false)}>
+                  <span className="material-symbols-outlined">login</span>
+                  {t("nav.sign_in")}
+                </Link>
+              )}
             </div>
           )}
         </div>
 
         <div className="navbar__actions">
+          <button className="navbar__lang-btn" onClick={toggleLang} aria-label="Change language">
+            <span className={`fi fi-${i18n.language === "en" ? "gb" : "fr"}`} />
+          </button>
+
           <Link to="/cart" className="navbar__cart-btn" aria-label="Cart">
             <span className="material-symbols-outlined icon--filled">
               shopping_bag
@@ -375,10 +397,6 @@ function Navbar() {
             )}
           </div>
         </div>
-
-        {/* <button onClick={toggleLang}>
-          {i18n.language === "en" ? "FR" : "EN"}
-        </button> */}
       </div>
     </nav>
   );

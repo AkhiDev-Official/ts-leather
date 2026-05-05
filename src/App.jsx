@@ -63,7 +63,7 @@ function AppShell() {
   return (
     <>
       <ScrollToTop />
-      {!isAdmin && <Navbar />}
+      <Navbar />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/products" element={<Products />} />

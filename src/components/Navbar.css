@@ -175,7 +175,7 @@
 
 .navbar__burger span {
   display: block;
-  width: 100%;
+  width: 28px;
   height: 2px;
   background: var(--accent);
   transition: transform 0.3s, opacity 0.3s;
@@ -242,11 +242,11 @@
     position: fixed;
     top: 0;
     left: 0;
-    width: 58px;
+    width: 100%;
     height: 68px;
     padding: 0.6rem 1rem;
     z-index: 115;
-    background: rgba(28, 23, 20, 1);
+    background: rgb(26, 20, 14);
   }
 
   /* Links fill remaining space below the bar */
@@ -361,13 +361,12 @@
 
   /* Mobile account section inside fullscreen menu */
   .navbar__mobile-account {
-    margin-top: auto;
     padding: 1rem 0;
     border-top: 1px solid rgba(196, 155, 56, 0.15);
     background: rgba(26, 20, 14, 0.5);
   }
 
-  .navbar__mobile-account-header {
+  /* .navbar__mobile-account-header {
     display: flex;
     align-items: center;
     gap: 0.75rem;
@@ -383,7 +382,7 @@
     font-size: 24px;
     color: var(--accent);
     opacity: 1;
-  }
+  } */
 
   .navbar__mobile-account-link {
     display: flex;
@@ -569,4 +568,82 @@
   padding: 0 4px;
   font-family: var(--ff-sans);
   line-height: 1;
+}
+
+/* ========== LANG TOGGLE ========== */
+.navbar__lang-btn {
+  display: grid;
+  place-items: center;
+  background: none;
+  padding: 0;
+  cursor: pointer;
+  overflow: hidden;
+  transition: border-color 0.3s var(--ease-luxury), background 0.3s, transform 0.3s;
+}
+
+.navbar__lang-btn:hover {
+  border-color: var(--accent);
+  background: rgba(196, 155, 56, 0.08);
+  transform: scale(1.1);
+}
+
+.navbar__lang-btn .fi {
+  font-size: 1.1rem;
+  border-radius: 2px;
+}
+
+.navbar__lang-flag {
+  font-size: 1rem;
+  line-height: 1;
+}
+
+/* ========== MOBILE TAB SWITCHER ========== */
+.navbar__tabs {
+  display: flex;
+  width: 100%;
+  border-bottom: 1px solid rgba(196, 155, 56, 0.15);
+  background: rgba(26, 20, 14, 1);
+  position: sticky;
+  top: 0;
+  z-index: 5;
+}
+
+.navbar__tab {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 1rem;
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  font-family: var(--font-serif);
+  font-size: 0.85rem;
+  font-weight: 400;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  cursor: pointer;
+  transition: color 0.3s, border-color 0.3s, background 0.3s;
+}
+
+.navbar__tab .material-symbols-outlined {
+  font-size: 20px;
+  opacity: 0.6;
+}
+
+.navbar__tab.active {
+  color: var(--accent);
+  border-bottom-color: var(--accent);
+  background: rgba(196, 155, 56, 0.04);
+}
+
+.navbar__tab.active .material-symbols-outlined {
+  opacity: 1;
+}
+
+.navbar__tab:not(.active):hover {
+  color: var(--text-muted);
+  background: rgba(196, 155, 56, 0.03);
 }

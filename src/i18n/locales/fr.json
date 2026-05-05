@@ -17,7 +17,16 @@
     "winter": "Hiver",
     "spring": "Printemps",
     "summer": "Été",
-    "autumn": "Automne"
+    "autumn": "Automne",
+    "shop": "Boutique",
+    "account": "Compte",
+    "dashboard": "Tableau de bord",
+    "orders": "Commandes",
+    "products": "Produits",
+    "customers": "Clients",
+    "reviews": "Avis",
+    "discounts": "Réductions",
+    "settings": "Paramètres"
   },
   "footer": {
     "privacy": "Confidentialité",
